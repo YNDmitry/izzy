@@ -8,7 +8,7 @@ import { useControls, button } from 'leva'
 gsap.registerPlugin(ScrollTrigger)
 
 export function Model(props) {
-  const { nodes } = useGLTF("/scooter-final.glb");
+  const { nodes } = useGLTF("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65837cf896d18909133f7d41_scooter-final.glb.txt");
   const model = useRef()
   const cameraControlsRef = useRef()
   const animations = useRef({});
