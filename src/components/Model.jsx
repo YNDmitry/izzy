@@ -10,7 +10,7 @@ export function Model(props) {
   const { nodes } = useGLTF("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65837cf896d18909133f7d41_scooter-final.glb.txt");
   const model = useRef()
   const cameraControlsRef = useRef()
-  const animations = useRef({});
+  const animations = useRef({})
 
   const ledColors = {
     led1: '#0047FF',
@@ -95,6 +95,7 @@ export function Model(props) {
   });
 
   useLayoutEffect(() => {
+    cameraControlsRef.current.update();
     gsap.to({}, {
       scrollTrigger: createLedScrollTrigger(
         '#trigger2-1',
