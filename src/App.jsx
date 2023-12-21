@@ -22,10 +22,9 @@ function App() {
         <div id="trigger8"></div>
         <div id="trigger9"></div>
         <Canvas resize shadows camera={{ fov: 45 }}>
-          <Stats />
           <Suspense>
             <Stage intensity={0.1} shadows={'accumulative'} preset={'portrait'} environment={'city'}>
-              <Center>
+              <Center top>
                 <Model />
               </Center>
             </Stage>
