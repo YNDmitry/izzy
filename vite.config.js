@@ -7,4 +7,9 @@ export default defineConfig({
   worker: {
     plugins: [react()],
   },
+  server: {
+    hmr: {
+      port: 4040
+    }
+  }
 })

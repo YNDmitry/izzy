@@ -3,7 +3,6 @@ import { Gltf, OrbitControls, useGLTF } from "@react-three/drei";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Color, MeshStandardMaterial } from 'three';
-import { useControls, button } from 'leva'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -35,15 +34,15 @@ export function Model(props) {
     }
 
     const timeline = gsap.timeline({
-      ease: 'none',
-      duration: 0,
+      ease: 'ease',
+      duration: 5,
       scrollTrigger: {
         trigger: triggers.trigger,
         endTrigger: triggers.endTrigger,
-        scrub: 1,
+        scrub: true,
         start: 'top top',
         end: 'bottom bottom',
-        onUpdate: () => cameraControlsRef.current.update(),
+        onUpdate: () => cameraControlsRef.current.update()
       }
     });
 
@@ -67,21 +66,22 @@ export function Model(props) {
       g: 1,
       b: 1,
       repeat: -1,
+      stagger: 1,
       yoyo: true,
-      duration,
-      delay,
-      repeatDelay: 0.05,
       ease: 'none',
+      duration: 0,
+      repeatDelay: delay
     });
     gsap.to(material.emissive, {
       r: 1,
       g: 1,
       b: 1,
       repeat: -1,
+      stagger: 1,
+      duration: 0,
+      ease: 'none',
       yoyo: true,
-      duration,
-      delay,
-      repeatDelay: 0.05,
+      repeatDelay: delay
     });
   };
 
@@ -110,10 +110,14 @@ export function Model(props) {
         '#trigger2-2',
         '#trigger2-3',
         () => {
+          gsap.killTweensOf(model.current.children[2].material.color)
+          gsap.killTweensOf(model.current.children[2].material.emissive)
           initializeMaterial(model.current.children[2].material, ledColors.led3)
-          animateMaterial(model.current.children[2].material, 0.5, 0.1)
+          animateMaterial(model.current.children[2].material, 0.5, 0.25)
         }, // Действие при скролле вниз
         () => {
+          gsap.killTweensOf(model.current.children[2].material.color)
+          gsap.killTweensOf(model.current.children[2].material.emissive)
           initializeMaterial(model.current.children[2].material, ledColors.led2)
         } // Действие при скролле вверх
       )
@@ -124,9 +128,15 @@ export function Model(props) {
         '#trigger2-3',
         '#trigger2-4',
         () => {
-          animateMaterial(model.current.children[2].material, 0.2, 0.2);
+          gsap.killTweensOf(model.current.children[2].material.color)
+          gsap.killTweensOf(model.current.children[2].material.emissive)
+          animateMaterial(model.current.children[2].material, 0.2, 0.1);
         }, // Действие при скролле вниз
-        () => { } // Действие при скролле вверх
+        () => {
+          gsap.killTweensOf(model.current.children[2].material.color)
+          gsap.killTweensOf(model.current.children[2].material.emissive)
+          animateMaterial(model.current.children[2].material, 0.5, 0.25);
+        } // Действие при скролле вверх
       )
     });
 
@@ -136,8 +146,10 @@ export function Model(props) {
         '#trigger2-5',
         () => { initializeMaterial(model.current.children[2].material, ledColors.led1) }, // Действие при скролле вниз
         () => {
+          gsap.killTweensOf(model.current.children[2].material.color)
+          gsap.killTweensOf(model.current.children[2].material.emissive)
           initializeMaterial(model.current.children[2].material, ledColors.led3)
-          animateMaterial(model.current.children[2].material, 0.2, 0.2);
+          animateMaterial(model.current.children[2].material, 0.2, 0.1);
         } // Действие при скролле вверх
       )
     });
@@ -229,7 +241,7 @@ export function Model(props) {
         enableRotate={false}
         enableDamping={false}
       />
-      <Gltf src='https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65837cf896d18909133f7d41_scooter-final.glb.txt' receiveShadow castShadow ref={model} scale={5} />
+      <Gltf src='https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65837cf896d18909133f7d41_scooter-final.glb.txt' castShadow receiveShadow ref={model} scale={5} />
     </>
   );
 }
