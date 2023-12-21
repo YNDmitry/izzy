@@ -23,7 +23,6 @@ function App() {
         <div id="trigger8"></div>
         <div id="trigger9"></div>
         <Canvas resize shadows camera={{ fov: 45 }}>
-          <Stats />
           <Suspense>
             <Stage preset="soft" environment={'city'} shadows={{ type: 'accumulative', color: '#131313', colorBlend: 1, opacity: 1 }} adjustCamera={false}>
               <Center top>
