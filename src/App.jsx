@@ -21,7 +21,7 @@ function App() {
         <div id="trigger7"></div>
         <div id="trigger8"></div>
         <div id="trigger9"></div>
-        <Canvas camera={{ fov: 45 }} linear={'true'}>
+        <Canvas camera={{ fov: 45 }} linear={'true'} frameloop="demand" performance={{ min: 0.5 }}>
           {import.meta.env.DEV ? <Stats /> : ''}
           <Suspense>
             <Stage intensity={1} castShadow={false} preset={'portrait'} environment={'city'} adjustCamera={false}>
