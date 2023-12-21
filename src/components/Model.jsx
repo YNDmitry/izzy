@@ -3,6 +3,7 @@ import { Gltf, OrbitControls, useGLTF } from "@react-three/drei";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Color, MeshStandardMaterial } from 'three';
+import { useFrame } from '@react-three/fiber';
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -231,6 +232,7 @@ export function Model(props) {
 
     initializeMaterial(frontLedMaterial, ledColors.led1);
     initializeMaterial(backLedMaterial, ledColors.led3);
+
   })
 
   return (
@@ -241,7 +243,7 @@ export function Model(props) {
         enableRotate={false}
         enableDamping={false}
       />
-      <Gltf src='https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65837cf896d18909133f7d41_scooter-final.glb.txt' castShadow receiveShadow ref={model} scale={5} />
+      <Gltf src='https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65837cf896d18909133f7d41_scooter-final.glb.txt' ref={model} scale={5} />
     </>
   );
 }

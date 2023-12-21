@@ -21,15 +21,15 @@ function App() {
         <div id="trigger7"></div>
         <div id="trigger8"></div>
         <div id="trigger9"></div>
-        <Canvas shadows={true} camera={{ fov: 45 }} linear={'true'}>
+        <Canvas camera={{ fov: 45 }} linear={'true'}>
           {import.meta.env.DEV ? <Stats /> : ''}
           <Suspense>
-            <Stage intensity={1} shadows={'accumulative'} preset={'portrait'} environment={'city'} adjustCamera={false}>
+            <Stage intensity={1} castShadow={false} preset={'portrait'} environment={'city'} adjustCamera={false}>
               <Center top>
                 <Model />
               </Center>
             </Stage>
-            <pointLight position={[3, 6, 0]} intensity={15}></pointLight>
+            <pointLight castShadow={false} position={[3, 6, 0]} intensity={15}></pointLight>
             <EffectComposer multisampling={0}>
               <Bloom intensity={0.1} radius={0.3} mipmapBlur={true} luminanceThreshold={0.001} />
             </EffectComposer>
