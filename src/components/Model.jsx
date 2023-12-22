@@ -95,9 +95,10 @@ export function Model(props) {
     onLeaveBack: leaveCallback // Обработка скролла вверх
   });
 
+
   useLayoutEffect(() => {
     cameraControlsRef.current.update();
-    gsap.to({}, {
+    gsap.to(model.current, {
       scrollTrigger: createLedScrollTrigger(
         '#trigger2-1',
         '#trigger2-2',
@@ -106,7 +107,7 @@ export function Model(props) {
       )
     });
 
-    gsap.to({}, {
+    gsap.to(model.current, {
       scrollTrigger: createLedScrollTrigger(
         '#trigger2-2',
         '#trigger2-3',

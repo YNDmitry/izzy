@@ -2,7 +2,7 @@ import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 import { Model } from './components/model'
 import './App.css'
-import { Center, Stage, Stats } from '@react-three/drei'
+import { Center, ContactShadows, Stage, Stats } from '@react-three/drei'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 function App() {
   return (
@@ -21,8 +21,10 @@ function App() {
         <div id="trigger7"></div>
         <div id="trigger8"></div>
         <div id="trigger9"></div>
-        <Canvas camera={{ fov: 45 }} linear={'true'} frameloop="demand" performance={{ min: 0.5 }}>
+        <div data-split-text=""></div>
+        <Canvas camera={{ fov: 45 }} frameloop="demand" performance={{ min: 0.5 }}>
           {import.meta.env.DEV ? <Stats /> : ''}
+          <fog attach="fog" args={['black', 15, 21.5]} />
           <Suspense>
             <Stage intensity={1} castShadow={false} preset={'portrait'} environment={'city'} adjustCamera={false}>
               <Center top>
@@ -31,7 +33,7 @@ function App() {
             </Stage>
             <pointLight castShadow={false} position={[3, 6, 0]} intensity={15}></pointLight>
             <EffectComposer multisampling={0}>
-              <Bloom intensity={0.1} radius={0.3} mipmapBlur={true} luminanceThreshold={0.001} />
+              <Bloom intensity={0.1} radius={0.3} mipmapBlur luminanceThreshold={0.001} />
             </EffectComposer>
           </Suspense>
         </Canvas>
