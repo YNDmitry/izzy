@@ -2,7 +2,7 @@ import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 import { Model } from './components/model'
 import './App.css'
-import { Center, ContactShadows, Stage, Stats } from '@react-three/drei'
+import { Center, Stage, Stats, useProgress, Html } from '@react-three/drei'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
         <Canvas camera={{ fov: 45 }} frameloop="demand" performance={{ min: 0.5 }}>
           {import.meta.env.DEV ? <Stats /> : ''}
           <fog attach="fog" args={['black', 15, 21.5]} />
-          <Suspense>
+          <Suspense fallback={<Loader />}>
             <Stage intensity={1} castShadow={false} preset={'portrait'} environment={'city'} adjustCamera={false}>
               <Center top>
                 <Model />
@@ -40,6 +40,14 @@ function App() {
       </div>
     </>
   )
+}
+
+function Loader() {
+  const { progress } = useProgress()
+  sessionStorage.removeItem('modelIsLoaded')
+  if (progress === 100) {
+    sessionStorage.setItem('modelIsLoaded', true)
+  }
 }
 
 export default App
