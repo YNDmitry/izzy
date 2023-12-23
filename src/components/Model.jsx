@@ -1,17 +1,21 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
-import { Gltf, OrbitControls, useGLTF } from "@react-three/drei";
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import { Backdrop, OrbitControls, useGLTF } from "@react-three/drei";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Color, MeshStandardMaterial } from 'three';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 
 gsap.registerPlugin(ScrollTrigger)
 
 export function Model(props) {
-  const { nodes } = useGLTF("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65837cf896d18909133f7d41_scooter-final.glb.txt");
+  const { nodes, materials } = useGLTF("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65872bb51744e63eb44e2f74_scooter-last-transformed.glb.txt");
   const model = useRef()
   const cameraControlsRef = useRef()
   const animations = useRef({})
+  const { invalidate } = useThree()
+
+  const led = useRef()
+  const currentLed = useRef('#0047FF')
 
   const ledColors = {
     led1: '#0047FF',
@@ -20,10 +24,13 @@ export function Model(props) {
   };
 
   // Функция для инициализации материала
-  const initializeMaterial = (material, color) => {
-    material.emissive = new Color(color);
-    material.color = new Color(color);
-    material.emissiveIntensity = 30;
+  const initializeMaterial = (color) => {
+    const newMaterial = new MeshStandardMaterial({
+      emissive: new Color(color),
+      color: new Color(color),
+      emissiveIntensity: 54,
+    });
+    return newMaterial
   };
 
   // Функция для создания GSAP таймлайнов
@@ -35,13 +42,13 @@ export function Model(props) {
     }
 
     const timeline = gsap.timeline({
-      ease: 'ease',
+      ease: 'none',
       scrollTrigger: {
         trigger: triggers.trigger,
         endTrigger: triggers.endTrigger,
         scrub: true,
         start: 'top top',
-        end: 'bottom bottom',
+        end: '70% bottom',
         onUpdate: () => cameraControlsRef.current.update()
       }
     });
@@ -58,21 +65,12 @@ export function Model(props) {
     }
 
     return timeline;
-  };
+  }
+
+  const shouldAnimateRef = useRef(true);
 
   const animateMaterial = (material, duration, delay) => {
-    gsap.to(material.color, {
-      r: 1,
-      g: 1,
-      b: 1,
-      repeat: -1,
-      stagger: 1,
-      yoyo: true,
-      ease: 'none',
-      duration: 0,
-      repeatDelay: delay
-    });
-    gsap.to(material.emissive, {
+    const settings = {
       r: 1,
       g: 1,
       b: 1,
@@ -81,77 +79,85 @@ export function Model(props) {
       duration: 0,
       ease: 'none',
       yoyo: true,
-      repeatDelay: delay
-    });
-  };
+      repeatDelay: delay,
+      onUpdate: () => {
+        if (shouldAnimateRef.current) {
+          invalidate();
+        }
+      },
+    }
+    gsap.to(material.color, settings);
+    gsap.to(material.emissive, settings);
+  }
 
-  const createLedScrollTrigger = (startTrigger, endTrigger, enterCallback, leaveCallback) => ({
+  const createLedScrollTrigger = useCallback((startTrigger, endTrigger, enterCallback, leaveCallback) => ({
     trigger: startTrigger,
     endTrigger: endTrigger,
-    scrub: false,
+    scrub: true,
     start: 'top top',
     end: 'bottom bottom',
     onEnter: enterCallback,
     onLeaveBack: leaveCallback // Обработка скролла вверх
-  });
-
+  }), [])
 
   useLayoutEffect(() => {
     cameraControlsRef.current.update();
-    gsap.to(model.current, {
+    gsap.to(led.current.material, {
       scrollTrigger: createLedScrollTrigger(
         '#trigger2-1',
         '#trigger2-2',
-        () => initializeMaterial(model.current.children[2].material, ledColors.led2), // Действие при скролле вниз
-        () => initializeMaterial(model.current.children[2].material, ledColors.led1) // Действие при скролле вверх
+        () => {
+          led.current.material = initializeMaterial(ledColors.led2)
+          invalidate()
+        }, // Действие при скролле вниз
+        () => {
+          led.current.material = initializeMaterial(ledColors.led1)
+          invalidate()
+        } // Действие при скролле вверх
       )
     });
 
-    gsap.to(model.current, {
+    gsap.to(led.current.material, {
       scrollTrigger: createLedScrollTrigger(
         '#trigger2-2',
         '#trigger2-3',
         () => {
-          gsap.killTweensOf(model.current.children[2].material.color)
-          gsap.killTweensOf(model.current.children[2].material.emissive)
-          initializeMaterial(model.current.children[2].material, ledColors.led3)
-          animateMaterial(model.current.children[2].material, 0.5, 0.25)
+          led.current.material = initializeMaterial(ledColors.led3)
+          shouldAnimateRef.current = true
+          animateMaterial(led.current.material, 0.5, 0.25)
         }, // Действие при скролле вниз
         () => {
-          gsap.killTweensOf(model.current.children[2].material.color)
-          gsap.killTweensOf(model.current.children[2].material.emissive)
-          initializeMaterial(model.current.children[2].material, ledColors.led2)
+          shouldAnimateRef.current = false
+          led.current.material = initializeMaterial(ledColors.led2)
         } // Действие при скролле вверх
       )
     });
 
-    gsap.to({}, {
+    gsap.to(led.current.material, {
       scrollTrigger: createLedScrollTrigger(
         '#trigger2-3',
         '#trigger2-4',
         () => {
-          gsap.killTweensOf(model.current.children[2].material.color)
-          gsap.killTweensOf(model.current.children[2].material.emissive)
-          animateMaterial(model.current.children[2].material, 0.2, 0.1);
+          animateMaterial(led.current.material, 0.2, 0.1);
         }, // Действие при скролле вниз
         () => {
-          gsap.killTweensOf(model.current.children[2].material.color)
-          gsap.killTweensOf(model.current.children[2].material.emissive)
-          animateMaterial(model.current.children[2].material, 0.5, 0.25);
+          animateMaterial(led.current.material, 0.5, 0.25);
         } // Действие при скролле вверх
       )
     });
 
-    gsap.to({}, {
+    gsap.to(led.current.material, {
       scrollTrigger: createLedScrollTrigger(
         '#trigger2-4',
         '#trigger2-5',
-        () => { initializeMaterial(model.current.children[2].material, ledColors.led1) }, // Действие при скролле вниз
         () => {
-          gsap.killTweensOf(model.current.children[2].material.color)
-          gsap.killTweensOf(model.current.children[2].material.emissive)
-          initializeMaterial(model.current.children[2].material, ledColors.led3)
-          animateMaterial(model.current.children[2].material, 0.2, 0.1);
+          shouldAnimateRef.current = false
+          led.current.material = initializeMaterial(ledColors.led1)
+        }, // Действие при скролле вниз
+        () => {
+          shouldAnimateRef.current = true
+          led.current.material = initializeMaterial(ledColors.led3)
+          animateMaterial(led.current.material, 0.2, 0.1);
         } // Действие при скролле вверх
       )
     });
@@ -166,7 +172,7 @@ export function Model(props) {
     animations.current.tl1 = createTimeline(
       { trigger: '#trigger1', endTrigger: '#trigger2-1' },
       { start: { x: -2, y: 0, z: 0 }, end: { x: -3, y: 1, z: -1 } },
-      { start: { x: -9.75, y: 1, z: 14 }, end: { x: -4.74, y: 1, z: 5 } },
+      { start: { x: -9.75, y: 1, z: 15 }, end: { x: -4.74, y: 1, z: 5 } },
       { start: { x: 0, y: 0, z: 0 }, end: { x: 0, y: 0, z: 0 } }
     );
 
@@ -214,27 +220,20 @@ export function Model(props) {
   useEffect(() => {
     if (!cameraControlsRef.current) return;
 
-    const frontLedMaterial = new MeshStandardMaterial({ roughness: 0, metalness: 0 });
-    const backLedMaterial = new MeshStandardMaterial({ roughness: 0, metalness: 0 });
-
     // Установка начальной позиции и направления камеры
     cameraControlsRef.current.target.set(-2, 0, 0);
-    cameraControlsRef.current.object.position.set(-9.75, 1, 14);
+    cameraControlsRef.current.object.position.set(-9.75, 1, 15);
 
     // Обновление камеры
     cameraControlsRef.current.update();
 
-    if (model.current) {
-      frontLedMaterial.copy(nodes.Cylinder010.material);
-      backLedMaterial.copy(nodes.Cube001.material);
-      model.current.children[2].material = frontLedMaterial;
-      model.current.children[7].material = backLedMaterial;
-    }
-
-    initializeMaterial(frontLedMaterial, ledColors.led1);
-    initializeMaterial(backLedMaterial, ledColors.led3);
-
   })
+
+  useFrame(() => {
+    console.log('updated')
+  })
+
+  console.log(nodes.Cylinder010.position)
 
   return (
     <>
@@ -243,10 +242,29 @@ export function Model(props) {
         enableZoom={false}
         enableRotate={false}
         enableDamping={false}
+        makeDefault
       />
-      <Gltf src='https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65837cf896d18909133f7d41_scooter-final.glb.txt' ref={model} scale={5} />
+      <group {...props} dispose={null} scale={5} ref={model}>
+        <group name="Scene">
+          <mesh name="Cube019" geometry={nodes.Cube019.geometry} material={materials.main} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} castShadow receiveShadow />
+          <mesh name="Cube011" geometry={nodes.Cube011.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
+          <mesh ref={led} name="Cylinder010" geometry={nodes.Cylinder010.geometry} material={materials.emission} position={[0.073, 0.131, -2.183]} rotation={[0, 0, -0.25]}>
+            <meshStandardMaterial roughness={0} metalness={0} color={currentLed.current} emissive={currentLed.current} emissiveIntensity={54} />
+          </mesh>
+          <mesh name="Cube013" geometry={nodes.Cube013.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
+          <mesh name="Cube015" geometry={nodes.Cube015.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
+          <mesh name="Cube016" geometry={nodes.Cube016.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
+          <mesh name="Cube017" geometry={nodes.Cube017.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
+          <mesh name="Cube001" geometry={nodes.Cube001.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.1045, 0.104, 0.078]}>
+            <meshStandardMaterial roughness={0} metalness={0} color={ledColors.led3} emissive={ledColors.led3} emissiveIntensity={54} />
+          </mesh>
+          <mesh name="Cube002" geometry={nodes.Cube002.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.105, 0.105, 0.079]}>
+            <meshStandardMaterial roughness={0} metalness={0} color={currentLed.current} emissive={currentLed.current} emissiveIntensity={54} />
+          </mesh>
+        </group>
+      </group >
     </>
-  );
+  )
 }
 
-useGLTF.preload("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65837cf896d18909133f7d41_scooter-final.glb.txt");
+useGLTF.preload("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65872bb51744e63eb44e2f74_scooter-last-transformed.glb.txt");

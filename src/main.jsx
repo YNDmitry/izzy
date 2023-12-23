@@ -5,7 +5,6 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
-
 import { SplitText } from 'https://cdn.jsdelivr.net/gh/ayhanexe/gsap-class-based-splitText-plugin/src/splitText.js'
 if (import.meta.env.PROD) {
   const text = new SplitText("[data-split-text]", { type: "words" })
