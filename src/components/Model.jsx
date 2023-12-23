@@ -229,12 +229,6 @@ export function Model(props) {
 
   })
 
-  useFrame(() => {
-    console.log('updated')
-  })
-
-  console.log(nodes.Cylinder010.position)
-
   return (
     <>
       <OrbitControls
