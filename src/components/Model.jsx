@@ -81,9 +81,9 @@ export function Model(props) {
       yoyo: true,
       repeatDelay: delay,
       onUpdate: () => {
-        if (shouldAnimateRef.current) {
-          invalidate();
-        }
+        // if (shouldAnimateRef.current) {
+        //   invalidate();
+        // }
       },
     }
     gsap.to(material.color, settings);
