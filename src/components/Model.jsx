@@ -24,18 +24,17 @@ export function Model(props) {
   };
 
   // Функция для инициализации материала
-  const initializeMaterial = (color) => {
+  const initializeMaterial = useCallback((color) => {
     const newMaterial = new MeshStandardMaterial({
       emissive: new Color(color),
       color: new Color(color),
       emissiveIntensity: 54,
     });
     return newMaterial
-  };
+  }, [])
 
   // Функция для создания GSAP таймлайнов
-  const createTimeline = (triggers, targetProps, positionProps, rotationProps) => {
-    // cameraControlsRef.current и его свойства доступны
+  const createTimeline = useCallback((triggers, targetProps, positionProps, rotationProps) => {
     if (!cameraControlsRef.current || !cameraControlsRef.current.target || !cameraControlsRef.current.object) {
       console.error("Camera controls are not initialized");
       return;
@@ -65,11 +64,11 @@ export function Model(props) {
     }
 
     return timeline;
-  }
+  }, [])
 
   const shouldAnimateRef = useRef(true);
 
-  const animateMaterial = (material, duration, delay) => {
+  const animateMaterial = useCallback((material, delay) => {
     const settings = {
       r: 1,
       g: 1,
@@ -88,9 +87,9 @@ export function Model(props) {
     }
     gsap.to(material.color, settings);
     gsap.to(material.emissive, settings);
-  }
+  }, [invalidate])
 
-  const createLedScrollTrigger = (startTrigger, endTrigger, enterCallback, leaveCallback) => ({
+  const createLedScrollTrigger = useCallback((startTrigger, endTrigger, enterCallback, leaveCallback) => ({
     trigger: startTrigger,
     endTrigger: endTrigger,
     scrub: true,
@@ -98,7 +97,7 @@ export function Model(props) {
     end: 'bottom bottom',
     onEnter: enterCallback,
     onLeaveBack: leaveCallback // Обработка скролла вверх
-  })
+  }), [])
 
   useLayoutEffect(() => {
     cameraControlsRef.current.update();
@@ -136,10 +135,10 @@ export function Model(props) {
         '#trigger2-3',
         '#trigger2-4',
         () => {
-          animateMaterial(led.current.material, 0.2, 0.1);
+          animateMaterial(led.current.material, 0.1);
         }, // Действие при скролле вниз
         () => {
-          animateMaterial(led.current.material, 0.5, 0.25);
+          animateMaterial(led.current.material, 0.25);
         } // Действие при скролле вверх
       )
     });
@@ -155,7 +154,7 @@ export function Model(props) {
         () => {
           shouldAnimateRef.current = true
           led.current.material = initializeMaterial(ledColors.led3)
-          animateMaterial(led.current.material, 0.2, 0.1);
+          animateMaterial(led.current.material, 0.1);
         } // Действие при скролле вверх
       )
     });
@@ -213,16 +212,13 @@ export function Model(props) {
       { start: { x: 9, y: 3, z: -8 }, end: { x: 6, y: 3, z: 9 } },
       { start: { x: -2, y: 0, z: 3 }, end: { x: -2, y: 1, z: 2 } }
     );
-  }, [nodes, ledColors])
+  }, [nodes, ledColors, initializeMaterial, createTimeline, animateMaterial, createLedScrollTrigger])
 
   useEffect(() => {
     if (!cameraControlsRef.current) return;
 
-    // Установка начальной позиции и направления камеры
     cameraControlsRef.current.target.set(-2, 0, 0);
     cameraControlsRef.current.object.position.set(-9.75, 1, 15);
-
-    // Обновление камеры
     cameraControlsRef.current.update();
   })
 
