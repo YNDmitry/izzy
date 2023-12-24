@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
-import { Backdrop, OrbitControls, useGLTF } from "@react-three/drei";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Color, MeshStandardMaterial } from 'three';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useThree } from '@react-three/fiber';
 
 gsap.registerPlugin(ScrollTrigger)
 

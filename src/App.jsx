@@ -2,7 +2,7 @@ import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 import { Model } from './components/model'
 import './App.css'
-import { Center, Stage, Stats, useProgress, Backdrop } from '@react-three/drei'
+import { Center, Stats, useProgress, Backdrop } from '@react-three/drei'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 function App() {
   return (
@@ -43,9 +43,6 @@ function App() {
             <directionalLight color={'white'} intensity={1} castShadow={false} position={[-6.20, 2.4, 3.6]} />
             <pointLight intensity={2} />
             <ambientLight intensity={1} />
-            {/* <Stage intensity={1} castShadow={false} preset={'portrait'} environment={'forest'} adjustCamera={false}>
-            </Stage> */}
-            {/* <pointLight castShadow={false} position={[3, 6, 0]} intensity={15}></pointLight> */}
             <EffectComposer multisampling={0}>
               <Bloom intensity={0.1} radius={0.3} mipmapBlur luminanceThreshold={0.001} />
             </EffectComposer>
