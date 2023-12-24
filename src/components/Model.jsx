@@ -49,7 +49,6 @@ export function Model(props) {
         scrub: true,
         start: 'top top',
         end: '+=500px bottom',
-        markers: true,
         onUpdate: () => cameraControlsRef.current.update()
       }
     });
@@ -109,11 +108,9 @@ export function Model(props) {
         '#trigger2-2',
         () => {
           led.current.material = initializeMaterial(ledColors.led2)
-          invalidate()
         }, // Действие при скролле вниз
         () => {
           led.current.material = initializeMaterial(ledColors.led1)
-          invalidate()
         } // Действие при скролле вверх
       )
     });
