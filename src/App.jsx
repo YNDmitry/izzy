@@ -2,7 +2,7 @@ import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 import { Model } from './components/model'
 import './App.css'
-import { Center, Stats, useProgress, Backdrop } from '@react-three/drei'
+import { Center, Stats, useProgress, Backdrop, Stage } from '@react-three/drei'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 function App() {
   return (
@@ -26,7 +26,9 @@ function App() {
           <fog attach="fog" args={['black', 17, 25]} />
           <Suspense fallback={<Loader />}>
             <Center>
-              <Model />
+              <Stage adjustCamera={false}>
+                <Model />
+              </Stage>
             </Center>
             <Center position={[0, -5.9, 0]}>
               <Backdrop
