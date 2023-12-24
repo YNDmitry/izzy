@@ -236,7 +236,6 @@ export function Model(props) {
         enableZoom={false}
         enableRotate={false}
         enableDamping={false}
-        makeDefault
       />
       <group {...props} dispose={null} scale={5} ref={model}>
         <group name="Scene">
