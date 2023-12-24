@@ -41,7 +41,6 @@ export function Model(props) {
     }
 
     const timeline = gsap.timeline({
-      ease: 'none',
       scrollTrigger: {
         trigger: triggers.trigger,
         endTrigger: triggers.endTrigger,
