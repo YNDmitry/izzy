@@ -21,7 +21,6 @@ function App() {
         <div id="trigger7"></div>
         <div id="trigger8"></div>
         <div id="trigger9"></div>
-        <div data-split-text=""></div>
         <Canvas camera={{ fov: 45 }} frameloop="demand" performance={{ min: 0.5 }} shadows>
           {import.meta.env.DEV ? <Stats /> : ''}
           <fog attach="fog" args={['black', 17, 25]} />
@@ -31,18 +30,18 @@ function App() {
             </Center>
             <Center position={[0, -5.9, 0]}>
               <Backdrop
-                floor={0.25} // Stretches the floor segment, 0.25 by default
-                segments={20} // Mesh-resolution, 20 by default
+                floor={0.25}
+                segments={20}
                 scale={[50, 0, 50]}
                 receiveShadow={true}
               >
-                <meshStandardMaterial color="#181614" />
+                <meshPhongMaterial color="#181614" />
               </Backdrop>
             </Center>
-            <directionalLight intensity={Math.PI} position={[-10.6, 9.4, -0.2]} />
-            <directionalLight color={'white'} intensity={1} castShadow={false} position={[-6.20, 2.4, 3.6]} />
+            <directionalLight intensity={Math.PI} position={[-10.6, 9.4, -0.2]} castShadow={false} />
+            <directionalLight color={'white'} intensity={Math.PI} castShadow={false} position={[-6.20, 2.4, 3.6]} />
             <pointLight intensity={2} />
-            <ambientLight intensity={1} />
+            <ambientLight intensity={1} color={'black'} />
             <EffectComposer multisampling={0}>
               <Bloom intensity={0.1} radius={0.3} mipmapBlur luminanceThreshold={0.001} />
             </EffectComposer>

@@ -48,7 +48,7 @@ export function Model(props) {
         endTrigger: triggers.endTrigger,
         scrub: true,
         start: 'top top',
-        end: '70% bottom',
+        end: '500px bottom',
         onUpdate: () => cameraControlsRef.current.update()
       }
     });
@@ -90,7 +90,7 @@ export function Model(props) {
     gsap.to(material.emissive, settings);
   }
 
-  const createLedScrollTrigger = useCallback((startTrigger, endTrigger, enterCallback, leaveCallback) => ({
+  const createLedScrollTrigger = (startTrigger, endTrigger, enterCallback, leaveCallback) => ({
     trigger: startTrigger,
     endTrigger: endTrigger,
     scrub: true,
@@ -98,7 +98,7 @@ export function Model(props) {
     end: 'bottom bottom',
     onEnter: enterCallback,
     onLeaveBack: leaveCallback // Обработка скролла вверх
-  }), [])
+  })
 
   useLayoutEffect(() => {
     cameraControlsRef.current.update();
@@ -226,7 +226,6 @@ export function Model(props) {
 
     // Обновление камеры
     cameraControlsRef.current.update();
-
   })
 
   return (
