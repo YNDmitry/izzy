@@ -26,11 +26,9 @@ function App() {
           <fog attach="fog" args={['black', 17, 25]} />
           <Suspense fallback={<Loader />}>
             <Center>
-              <Stage adjustCamera={false}>
-                <Model />
-              </Stage>
+              <Model />
             </Center>
-            <Center position={[0, -5.9, 0]}>
+            {/* <Center position={[0, -5.9, 0]}>
               <Backdrop
                 floor={0.25}
                 segments={20}
@@ -39,7 +37,7 @@ function App() {
               >
                 <meshPhongMaterial color="#181614" />
               </Backdrop>
-            </Center>
+            </Center> */}
             <directionalLight intensity={Math.PI} position={[-10.6, 9.4, -0.2]} castShadow={false} />
             <directionalLight color={'white'} intensity={Math.PI} castShadow={false} position={[-6.20, 2.4, 3.6]} />
             <pointLight intensity={2} />
