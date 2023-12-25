@@ -96,7 +96,6 @@ export function Model(props) {
     scrub: true,
     start: 'top top',
     end: '+=1px',
-    markers: true,
     onEnter: enterCallback,
     onLeaveBack: leaveCallback // Обработка скролла вверх
   }), [])
