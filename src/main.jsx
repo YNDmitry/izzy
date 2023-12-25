@@ -34,6 +34,8 @@ if (import.meta.env.PROD) {
     stagger: 0.1,
     delay: 1,
   })
+
+  console.log(new SplitText("[data-split-text]"))
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />)

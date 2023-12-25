@@ -8,7 +8,7 @@ import { useThree } from '@react-three/fiber';
 gsap.registerPlugin(ScrollTrigger)
 
 export function Model(props) {
-  const { nodes, materials } = useGLTF("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65872bb51744e63eb44e2f74_scooter-last-transformed.glb.txt");
+  const { nodes, materials } = useGLTF("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/6589dabe5b7d61bf88af9927_scooter-transformed.glb.txt");
   const model = useRef()
   const cameraControlsRef = useRef()
   const animations = useRef({})
@@ -315,4 +315,4 @@ export function Model(props) {
   )
 }
 
-useGLTF.preload("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/65872bb51744e63eb44e2f74_scooter-last-transformed.glb.txt");
+useGLTF.preload("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/6589dabe5b7d61bf88af9927_scooter-transformed.glb.txt");
