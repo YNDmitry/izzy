@@ -15,12 +15,14 @@ export function Model(props) {
   const { invalidate } = useThree()
 
   const led = useRef()
+  const led2 = useRef()
   const currentLed = useRef('#0047FF')
 
   const ledColors = {
-    led1: '#0047FF',
-    led2: '#00FF19',
-    led3: '#FF0004'
+    blue: '#0047FF',
+    green: '#00FF19',
+    red: '#FF0004',
+    orange: 'orange'
   };
 
   // Функция для инициализации материала
@@ -93,7 +95,8 @@ export function Model(props) {
     endTrigger: endTrigger,
     scrub: true,
     start: 'top top',
-    end: 'bottom bottom',
+    end: '+=1px',
+    markers: true,
     onEnter: enterCallback,
     onLeaveBack: leaveCallback // Обработка скролла вверх
   }), [])
@@ -105,10 +108,12 @@ export function Model(props) {
         '#trigger2-1',
         '#trigger2-2',
         () => {
-          led.current.material = initializeMaterial(ledColors.led2)
+          led.current.material = initializeMaterial(ledColors.blue)
+          invalidate()
         }, // Действие при скролле вниз
         () => {
-          led.current.material = initializeMaterial(ledColors.led1)
+          led.current.material = initializeMaterial(ledColors.blue)
+          invalidate()
         } // Действие при скролле вверх
       )
     });
@@ -118,13 +123,12 @@ export function Model(props) {
         '#trigger2-2',
         '#trigger2-3',
         () => {
-          led.current.material = initializeMaterial(ledColors.led3)
-          shouldAnimateRef.current = true
-          animateMaterial(led.current.material, 0.5, 0.25)
+          led.current.material = initializeMaterial(ledColors.green)
+          invalidate()
         }, // Действие при скролле вниз
         () => {
-          shouldAnimateRef.current = false
-          led.current.material = initializeMaterial(ledColors.led2)
+          led.current.material = initializeMaterial(ledColors.green)
+          invalidate()
         } // Действие при скролле вверх
       )
     });
@@ -134,10 +138,14 @@ export function Model(props) {
         '#trigger2-3',
         '#trigger2-4',
         () => {
-          animateMaterial(led.current.material, 0.1);
+          shouldAnimateRef.current = true
+          led.current.material = initializeMaterial(ledColors.red)
+          animateMaterial(led.current.material, 0.25)
         }, // Действие при скролле вниз
         () => {
-          animateMaterial(led.current.material, 0.25);
+          shouldAnimateRef.current = true
+          led.current.material = initializeMaterial(ledColors.red)
+          animateMaterial(led.current.material, 0.25)
         } // Действие при скролле вверх
       )
     });
@@ -147,13 +155,27 @@ export function Model(props) {
         '#trigger2-4',
         '#trigger2-5',
         () => {
-          shouldAnimateRef.current = false
-          led.current.material = initializeMaterial(ledColors.led1)
+          shouldAnimateRef.current = true
+          led.current.material = initializeMaterial(ledColors.red)
+          animateMaterial(led.current.material, 0.1)
         }, // Действие при скролле вниз
         () => {
           shouldAnimateRef.current = true
-          led.current.material = initializeMaterial(ledColors.led3)
-          animateMaterial(led.current.material, 0.1);
+          led.current.material = initializeMaterial(ledColors.red)
+          animateMaterial(led.current.material, 0.1)
+        } // Действие при скролле вверх
+      )
+    });
+
+    gsap.to(led.current.material, {
+      scrollTrigger: createLedScrollTrigger(
+        '#trigger2-5',
+        '#trigger2-5',
+        () => {
+          shouldAnimateRef.current = false
+          led.current.material = initializeMaterial(ledColors.blue)
+        }, // Действие при скролле вниз
+        () => {
         } // Действие при скролле вверх
       )
     });
@@ -205,6 +227,46 @@ export function Model(props) {
       { start: { x: 2, y: 0, z: 5 }, end: { x: -2, y: 0, z: 3 } }
     );
 
+    gsap.to(led2.current.material, {
+      scrollTrigger: {
+        trigger: '#trigger5',
+        start: 'bottom',
+        end: 'bottom',
+        scrub: true,
+        onEnter: () => {
+          shouldAnimateRef.current = false
+          led2.current.material = initializeMaterial('white')
+        },
+        onLeaveBack: () => {
+          shouldAnimateRef.current = false
+          led2.current.material = initializeMaterial('white')
+        }
+      }
+    })
+
+    gsap.to(led2.current.material, {
+      scrollTrigger: {
+        trigger: '#trigger6',
+        start: 'bottom bottom',
+        end: '+=100px top',
+        scrub: true,
+        onEnter: () => {
+          shouldAnimateRef.current = true
+          led2.current.material = initializeMaterial(ledColors.orange)
+          animateMaterial(led2.current.material, 0.3)
+        },
+        onLeave: () => {
+          shouldAnimateRef.current = false
+          led2.current.material = initializeMaterial('white')
+        },
+        onEnterBack: () => {
+          shouldAnimateRef.current = true
+          led2.current.material = initializeMaterial(ledColors.orange)
+          animateMaterial(led2.current.material, 0.3)
+        }
+      },
+    })
+
     animations.current.tl7 = createTimeline(
       { trigger: '#trigger8', endTrigger: '#trigger9' },
       { start: { x: 0, y: -4, z: 0 }, end: { x: 0, y: -3, z: 0 } },
@@ -237,11 +299,13 @@ export function Model(props) {
             <meshStandardMaterial roughness={0} metalness={0} color={currentLed.current} emissive={currentLed.current} emissiveIntensity={54} />
           </mesh>
           <mesh name="Cube013" geometry={nodes.Cube013.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
-          <mesh name="Cube015" geometry={nodes.Cube015.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
+          <mesh ref={led2} name="Cube015" geometry={nodes.Cube015.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]}>
+            <meshStandardMaterial roughness={0} metalness={0} color={'white'} emissive={'white'} emissiveIntensity={54} />
+          </mesh>
           <mesh name="Cube016" geometry={nodes.Cube016.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
           <mesh name="Cube017" geometry={nodes.Cube017.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
           <mesh name="Cube001" geometry={nodes.Cube001.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.1045, 0.104, 0.078]}>
-            <meshStandardMaterial roughness={0} metalness={0} color={ledColors.led3} emissive={ledColors.led3} emissiveIntensity={54} />
+            <meshStandardMaterial roughness={0} metalness={0} color={ledColors.red} emissive={ledColors.red} emissiveIntensity={54} />
           </mesh>
           <mesh name="Cube002" geometry={nodes.Cube002.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.105, 0.105, 0.079]}>
             <meshStandardMaterial roughness={0} metalness={0} color={currentLed.current} emissive={currentLed.current} emissiveIntensity={54} />
