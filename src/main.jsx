@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 import { SplitText } from 'https://cdn.jsdelivr.net/gh/ayhanexe/gsap-class-based-splitText-plugin/src/splitText.js'
 if (import.meta.env.PROD) {
-  const text = new SplitText("[data-split-text]", { type: "words" })
+  const text = new SplitText("[data-split-text]")
   const textTimeline = gsap.timeline({
     stagger: 0.1,
     duration: 0.5,
@@ -20,22 +20,20 @@ if (import.meta.env.PROD) {
     }
   })
 
-  gsap.set(text.words, {
+  gsap.set(text.lines, {
     y: 100
   })
 
-  textTimeline.to(text.words, {
+  textTimeline.to(text.lines, {
     y: 0,
     stagger: 0.1,
   })
 
-  textTimeline.to(text.words, {
+  textTimeline.to(text.lines, {
     y: 100,
     stagger: 0.1,
     delay: 1,
   })
-
-  console.log(new SplitText("[data-split-text]"))
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />)
