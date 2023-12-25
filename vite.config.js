@@ -9,7 +9,7 @@ export default defineConfig({
   },
   server: {
     hmr: {
-      port: 4040
+      port: 4040,
     }
   }
 })

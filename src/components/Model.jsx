@@ -94,11 +94,65 @@ export function Model(props) {
     trigger: startTrigger,
     endTrigger: endTrigger,
     scrub: true,
-    start: 'top top',
-    end: '+=1px',
+    start: '+=100px',
+    end: '+=100px',
     onEnter: enterCallback,
     onLeaveBack: leaveCallback // Обработка скролла вверх
   }), [])
+
+  const textWithArrowAnimation = (trigger, startTrigger, endTrigger) => {
+    gsap.to(trigger, {
+      scrollTrigger: {
+        trigger: startTrigger,
+        endTrigger: endTrigger,
+        scrub: true,
+        start: '+=500px',
+        end: '+=500px',
+        onEnter: () => gsap.to(trigger, { opacity: 1, duration: 0.2 }),
+        onEnterBack: () => gsap.to(trigger, { opacity: 1, duration: 0.2 }),
+        onLeave: () => gsap.to(trigger, { opacity: 0, duration: 0.2 }),
+        onLeaveBack: () => gsap.to(trigger, { opacity: 0, duration: 0.2 }),
+      }
+    })
+  }
+
+  let lastElementOffScreen = false;
+
+  const textTriggerAnimation = (trigger, startTrigger, endTrigger, prevTrigger, isFirst, isLast) => {
+    gsap.set(trigger, { opacity: 0 }); // Инициализируем с opacity 0
+
+    gsap.to(trigger, {
+      scrollTrigger: {
+        trigger: startTrigger,
+        endTrigger: endTrigger,
+        scrub: true,
+        start: '+=100px',
+        end: '+=100px',
+        onEnter: () => {
+          if (isFirst || !lastElementOffScreen) gsap.to('#t2', { opacity: 1, duration: 0.2 });
+          gsap.to(trigger, { opacity: 1, duration: 0.2 })
+        },
+        onLeave: () => {
+          gsap.to(trigger, { opacity: 0.5, duration: 0.2 });
+          if (isLast) {
+            lastElementOffScreen = true;
+            gsap.to('#t2', { opacity: 0, duration: 0.2 });
+          }
+        },
+        onEnterBack: () => {
+          if (prevTrigger) gsap.to(prevTrigger, { opacity: 0.5, duration: 0.2 });
+          if (isLast) lastElementOffScreen = false;
+          gsap.to('#t2', { opacity: 1, duration: 0.2 });
+          gsap.to(trigger, { opacity: 1, duration: 0.2 });
+        },
+        onLeaveBack: () => {
+          gsap.to(trigger, { opacity: 0, duration: 0.2 });
+          if (isFirst) gsap.to('#t2', { opacity: 1, duration: 0.2 });
+        }
+      }
+    });
+  }
+
 
   useLayoutEffect(() => {
     cameraControlsRef.current.update();
@@ -116,6 +170,11 @@ export function Model(props) {
         } // Действие при скролле вверх
       )
     });
+
+    textTriggerAnimation('#t2-1', '#trigger2-1', '#trigger2-2', null, true, false);
+    textTriggerAnimation('#t2-2', '#trigger2-2', '#trigger2-3', '#t2-1', false, false);
+    textTriggerAnimation('#t2-3', '#trigger2-3', '#trigger2-4', '#t2-2', false, false);
+    textTriggerAnimation('#t2-4', '#trigger2-4', '#trigger2-5', '#t2-3', false, true);
 
     gsap.to(led.current.material, {
       scrollTrigger: createLedScrollTrigger(
@@ -193,17 +252,25 @@ export function Model(props) {
       { start: { x: 0, y: 0, z: 0 }, end: { x: 0, y: 0, z: 0 } }
     );
 
+    animations.current.tl1.add(textWithArrowAnimation('#t1', '#trigger1', '#trigger2-1'))
+
     animations.current.tl2 = createTimeline(
       { trigger: '#trigger3', endTrigger: '#trigger4' },
       { start: { x: -3, y: 1, z: -1 }, end: { x: -6, y: 0, z: 0 } },
       { start: { x: -4.74, y: 1, z: 5, }, end: { x: 0.25, y: 7, z: 0 } }
     );
 
+    animations.current.tl2.add(textWithArrowAnimation('#t3', '#trigger3', '#trigger4'))
+
     animations.current.tl3 = createTimeline(
       { trigger: '#trigger4', endTrigger: '#trigger5' },
       { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
       { start: { x: 0.25, y: 7, z: 0 }, end: { x: 2, y: 9, z: 0 } }
     );
+
+    animations.current.tl3.add(textWithArrowAnimation('#t4', '#trigger4', '#trigger5'))
+    animations.current.tl3.add(textWithArrowAnimation('#t5', '#trigger4', '#trigger5'))
+    animations.current.tl3.add(textWithArrowAnimation('#t6', '#trigger4', '#trigger5'))
 
     animations.current.tl4 = createTimeline(
       { trigger: '#trigger5', endTrigger: '#trigger6' },
@@ -212,6 +279,8 @@ export function Model(props) {
       { start: { x: 0, y: 0, z: 0 }, end: { x: -2, y: -1, z: -3 } }
     );
 
+    animations.current.tl4.add(textWithArrowAnimation('#t7', '#trigger5', '#trigger6'))
+
     animations.current.tl5 = createTimeline(
       { trigger: '#trigger6', endTrigger: '#trigger7' },
       { start: { x: -2, y: 4, z: 0 }, end: { x: -2, y: 4, z: 0 } },
@@ -219,12 +288,16 @@ export function Model(props) {
       { start: { x: -2, y: -1, z: -3 }, end: { x: 2, y: 0, z: 5 } }
     );
 
+    animations.current.tl5.add(textWithArrowAnimation('#t8', '#trigger6', '#trigger7'))
+
     animations.current.tl6 = createTimeline(
       { trigger: '#trigger7', endTrigger: '#trigger8' },
       { start: { x: -2, y: 4, z: 0 }, end: { x: 0, y: -4, z: 0 } },
       { start: { x: -5, y: 5, z: 6 }, end: { x: 9, y: 3, z: -8 } },
       { start: { x: 2, y: 0, z: 5 }, end: { x: -2, y: 0, z: 3 } }
     );
+
+    animations.current.tl6.add(textWithArrowAnimation('#t9', '#trigger7', '#trigger8'))
 
     gsap.to(led2.current.material, {
       scrollTrigger: {
@@ -272,6 +345,8 @@ export function Model(props) {
       { start: { x: 9, y: 3, z: -8 }, end: { x: 6, y: 3, z: 9 } },
       { start: { x: -2, y: 0, z: 3 }, end: { x: -2, y: 1, z: 2 } }
     );
+
+    animations.current.tl7.add(textWithArrowAnimation('#t10', '#trigger8', '#trigger9'))
   }, [nodes, ledColors, initializeMaterial, createTimeline, animateMaterial, createLedScrollTrigger])
 
   useEffect(() => {
