@@ -49,6 +49,8 @@ export function Model(props) {
         scrub: true,
         start: 'top top',
         end: '+=500px bottom',
+        toggleActions: 'play none none none',
+        immediateRender: false,
         onUpdate: () => cameraControlsRef.current.update()
       }
     });
@@ -347,7 +349,12 @@ export function Model(props) {
     );
 
     animations.current.tl7.add(textWithArrowAnimation('#t10', '#trigger8', '#trigger9'))
-  }, [nodes, ledColors, initializeMaterial, createTimeline, animateMaterial, createLedScrollTrigger])
+
+    return () => {
+      Object.values(animations.current).forEach(tl => tl.kill());
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, [])
 
   useEffect(() => {
     if (!cameraControlsRef.current) return;
