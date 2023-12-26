@@ -16,6 +16,7 @@ export function Model(props) {
 
   const led = useRef()
   const led2 = useRef()
+  const led3 = useRef()
   const currentLed = useRef('#0047FF')
 
   const ledColors = {
@@ -36,7 +37,7 @@ export function Model(props) {
   }, [])
 
   // Функция для создания GSAP таймлайнов
-  const createTimeline = useCallback((triggers, targetProps, positionProps, rotationProps) => {
+  const createTimeline = useCallback((triggers, targetProps, positionProps, rotationProps, isLastTimeline) => {
     if (!cameraControlsRef.current || !cameraControlsRef.current.target || !cameraControlsRef.current.object) {
       console.error("Camera controls are not initialized");
       return;
@@ -48,10 +49,9 @@ export function Model(props) {
         endTrigger: triggers.endTrigger,
         scrub: true,
         start: 'top top',
-        end: '+=500px bottom',
-        toggleActions: 'play none none none',
+        end: isLastTimeline ? 'bottom bottom' : '+=500px bottom',
         immediateRender: false,
-        onUpdate: () => cameraControlsRef.current.update()
+        onUpdate: () => cameraControlsRef.current.update(),
       }
     });
 
@@ -341,11 +341,35 @@ export function Model(props) {
       },
     })
 
+    gsap.to(led3.current.material, {
+      scrollTrigger: {
+        trigger: '#trigger7',
+        start: 'bottom bottom',
+        end: '+=100px top',
+        scrub: true,
+        onEnter: () => {
+          shouldAnimateRef.current = true
+          led3.current.material = initializeMaterial(ledColors.orange)
+          animateMaterial(led3.current.material, 0.3)
+        },
+        onLeave: () => {
+          shouldAnimateRef.current = false
+          led3.current.material = initializeMaterial('white')
+        },
+        onEnterBack: () => {
+          shouldAnimateRef.current = true
+          led3.current.material = initializeMaterial(ledColors.orange)
+          animateMaterial(led3.current.material, 0.3)
+        }
+      },
+    })
+
     animations.current.tl7 = createTimeline(
       { trigger: '#trigger8', endTrigger: '#trigger9' },
       { start: { x: 0, y: -4, z: 0 }, end: { x: 0, y: -3, z: 0 } },
       { start: { x: 9, y: 3, z: -8 }, end: { x: 6, y: 3, z: 9 } },
-      { start: { x: -2, y: 0, z: 3 }, end: { x: -2, y: 1, z: 2 } }
+      { start: { x: -2, y: 0, z: 3 }, end: { x: -2, y: 1, z: 2 } },
+      true
     );
 
     animations.current.tl7.add(textWithArrowAnimation('#t10', '#trigger8', '#trigger9'))
@@ -379,7 +403,9 @@ export function Model(props) {
           <mesh ref={led} name="Cylinder010" geometry={nodes.Cylinder010.geometry} material={materials.emission} position={[0.073, 0.131, -2.183]} rotation={[0, 0, -0.25]}>
             <meshStandardMaterial roughness={0} metalness={0} color={currentLed.current} emissive={currentLed.current} emissiveIntensity={54} />
           </mesh>
-          <mesh name="Cube013" geometry={nodes.Cube013.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
+          <mesh ref={led3} name="Cube013" geometry={nodes.Cube013.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]}>
+            <meshStandardMaterial roughness={0} metalness={0} color={'white'} emissive={'white'} emissiveIntensity={54} />
+          </mesh>
           <mesh ref={led2} name="Cube015" geometry={nodes.Cube015.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]}>
             <meshStandardMaterial roughness={0} metalness={0} color={'white'} emissive={'white'} emissiveIntensity={54} />
           </mesh>
