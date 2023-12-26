@@ -49,9 +49,7 @@ export function Model(props) {
         endTrigger: triggers.endTrigger,
         scrub: true,
         start: 'top top',
-        markers: true,
         end: '+=500px bottom',
-
         onUpdate: () => cameraControlsRef.current.update()
       }
     });
