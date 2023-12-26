@@ -3,7 +3,7 @@ import { OrbitControls, useGLTF } from "@react-three/drei";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Color, MeshStandardMaterial } from 'three';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useThree } from '@react-three/fiber';
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -49,9 +49,10 @@ export function Model(props) {
         endTrigger: triggers.endTrigger,
         scrub: true,
         start: 'top top',
-        end: isLastTimeline ? 'bottom bottom' : '+=500px bottom',
-        immediateRender: false,
-        onUpdate: () => cameraControlsRef.current.update(),
+        markers: true,
+        end: '+=500px bottom',
+
+        onUpdate: () => cameraControlsRef.current.update()
       }
     });
 
@@ -155,8 +156,9 @@ export function Model(props) {
     });
   }
 
-
   useLayoutEffect(() => {
+    cameraControlsRef.current.target.set(-2, 0, 0);
+    cameraControlsRef.current.object.position.set(-9.75, 1, 15);
     cameraControlsRef.current.update();
     gsap.to(led.current.material, {
       scrollTrigger: createLedScrollTrigger(
@@ -408,15 +410,10 @@ export function Model(props) {
 
   useEffect(() => {
     if (!cameraControlsRef.current) return;
-
     cameraControlsRef.current.target.set(-2, 0, 0);
     cameraControlsRef.current.object.position.set(-9.75, 1, 15);
     cameraControlsRef.current.update();
-  })
-
-  useFrame(() => {
-    console.log(cameraControlsRef.current)
-  })
+  }, [])
 
   return (
     <>
@@ -425,7 +422,7 @@ export function Model(props) {
         enableZoom={false}
         enableRotate={false}
         enableDamping={false}
-        onUpdate={(e) => console.log(e)}
+        makeDefault
       />
       <group {...props} dispose={null} scale={5} ref={model}>
         <group name="Scene">
