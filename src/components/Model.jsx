@@ -185,10 +185,12 @@ export function Model(props) {
         () => {
           led.current.material = initializeMaterial(ledColors.green)
           invalidate()
+          shouldAnimateRef.current = false
         }, // Действие при скролле вниз
         () => {
           led.current.material = initializeMaterial(ledColors.green)
           invalidate()
+          shouldAnimateRef.current = false
         } // Действие при скролле вверх
       )
     });
