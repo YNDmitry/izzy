@@ -3,7 +3,7 @@ import { OrbitControls, useGLTF } from "@react-three/drei";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Color, MeshStandardMaterial } from 'three';
-import { useThree } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -260,26 +260,43 @@ export function Model(props) {
       { trigger: '#trigger3', endTrigger: '#trigger4' },
       { start: { x: -3, y: 1, z: -1 }, end: { x: -6, y: 0, z: 0 } },
       { start: { x: -4.74, y: 1, z: 5, }, end: { x: 0.25, y: 7, z: 0 } }
-    );
+    )
 
     animations.current.tl2.add(textWithArrowAnimation('#t3', '#trigger3', '#trigger4'))
 
-    animations.current.tl3 = createTimeline(
-      { trigger: '#trigger4', endTrigger: '#trigger5' },
-      { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
-      { start: { x: 0.25, y: 7, z: 0 }, end: { x: 2, y: 9, z: 0 } }
-    );
+    if (window.innerWidth > 991) {
+      animations.current.tl3 = createTimeline(
+        { trigger: '#trigger4', endTrigger: '#trigger5' },
+        { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
+        { start: { x: 0.25, y: 7, z: 0 }, end: { x: 2, y: 9, z: 0 } }
+      );
+    } else {
+      animations.current.tl3 = createTimeline(
+        { trigger: '#trigger4', endTrigger: '#trigger5' },
+        { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
+        { start: { x: 0.25, y: 7, z: 0 }, end: { x: 3, y: 15, z: 0 } }
+      );
+    }
 
     animations.current.tl3.add(textWithArrowAnimation('#t4', '#trigger4', '#trigger5'))
     animations.current.tl3.add(textWithArrowAnimation('#t5', '#trigger4', '#trigger5'))
     animations.current.tl3.add(textWithArrowAnimation('#t6', '#trigger4', '#trigger5'))
 
-    animations.current.tl4 = createTimeline(
-      { trigger: '#trigger5', endTrigger: '#trigger6' },
-      { start: { x: -6, y: 0, z: 0 }, end: { x: -2, y: 4, z: 0 } },
-      { start: { x: 2, y: 9, z: 0 }, end: { x: -7, y: 5, z: -4 } },
-      { start: { x: 0, y: 0, z: 0 }, end: { x: -2, y: -1, z: -3 } }
-    );
+    if (window.innerWidth > 991) {
+      animations.current.tl4 = createTimeline(
+        { trigger: '#trigger5', endTrigger: '#trigger6' },
+        { start: { x: -6, y: 0, z: 0 }, end: { x: -2, y: 4, z: 0 } },
+        { start: { x: 2, y: 9, z: 0 }, end: { x: -7, y: 5, z: -4 } },
+        { start: { x: 0, y: 0, z: 0 }, end: { x: -2, y: -1, z: -3 } }
+      );
+    } else {
+      animations.current.tl4 = createTimeline(
+        { trigger: '#trigger5', endTrigger: '#trigger6' },
+        { start: { x: -6, y: 0, z: 0 }, end: { x: -2, y: 4, z: 0 } },
+        { start: { x: 3, y: 15, z: 0 }, end: { x: -7, y: 5, z: -4 } },
+        { start: { x: 0, y: 0, z: 0 }, end: { x: -2, y: -1, z: -3 } }
+      );
+    }
 
     animations.current.tl4.add(textWithArrowAnimation('#t7', '#trigger5', '#trigger6'))
 
@@ -292,12 +309,21 @@ export function Model(props) {
 
     animations.current.tl5.add(textWithArrowAnimation('#t8', '#trigger6', '#trigger7'))
 
-    animations.current.tl6 = createTimeline(
-      { trigger: '#trigger7', endTrigger: '#trigger8' },
-      { start: { x: -2, y: 4, z: 0 }, end: { x: 0, y: -4, z: 0 } },
-      { start: { x: -5, y: 5, z: 6 }, end: { x: 9, y: 3, z: -8 } },
-      { start: { x: 2, y: 0, z: 5 }, end: { x: -2, y: 0, z: 3 } }
-    );
+    if (window.innerWidth > 991) {
+      animations.current.tl6 = createTimeline(
+        { trigger: '#trigger7', endTrigger: '#trigger8' },
+        { start: { x: -2, y: 4, z: 0 }, end: { x: 0, y: -4, z: 0 } },
+        { start: { x: -5, y: 5, z: 6 }, end: { x: 9, y: 3, z: -8 } },
+        { start: { x: 2, y: 0, z: 5 }, end: { x: -2, y: 0, z: 3 } }
+      )
+    } else {
+      animations.current.tl6 = createTimeline(
+        { trigger: '#trigger7', endTrigger: '#trigger8' },
+        { start: { x: -2, y: 4, z: 0 }, end: { x: 0, y: -4, z: 0 } },
+        { start: { x: -5, y: 5, z: 6 }, end: { x: 12, y: 3, z: -8 } },
+        { start: { x: 2, y: 0, z: 5 }, end: { x: 0, y: 0, z: 3 } }
+      )
+    }
 
     animations.current.tl6.add(textWithArrowAnimation('#t9', '#trigger7', '#trigger8'))
 
@@ -388,6 +414,10 @@ export function Model(props) {
     cameraControlsRef.current.update();
   })
 
+  useFrame(() => {
+    console.log(cameraControlsRef.current)
+  })
+
   return (
     <>
       <OrbitControls
@@ -395,6 +425,7 @@ export function Model(props) {
         enableZoom={false}
         enableRotate={false}
         enableDamping={false}
+        onUpdate={(e) => console.log(e)}
       />
       <group {...props} dispose={null} scale={5} ref={model}>
         <group name="Scene">
