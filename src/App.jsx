@@ -1,8 +1,8 @@
-import { Canvas } from '@react-three/fiber'
-import { Suspense } from 'react'
+import {Canvas} from '@react-three/fiber'
+import {Suspense} from 'react'
 import { Model } from './components/model'
 import './App.css'
-import { Center, Stats, useProgress, Backdrop, Stage } from '@react-three/drei'
+import { Center, Stats, useProgress, Backdrop } from '@react-three/drei'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 function App() {
   return (
@@ -21,8 +21,8 @@ function App() {
       <div id="trigger8"></div>
       <div id="trigger9"></div>
       <div className='canvas-container'>
-        <Canvas camera={{ fov: 45 }} frameloop="demand" shadows>
-          {import.meta.env.DEV ? <Stats /> : ''}
+        <Canvas camera={{ fov: 45 }} frameloop="demand" shadows resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }}>
+            {import.meta.env.DEV ? <Stats /> : ''}
           <Suspense fallback={<Loader />}>
             <Center>
               <Model />
