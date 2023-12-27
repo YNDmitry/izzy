@@ -404,10 +404,10 @@ export function Model(props) {
 
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
   useEffect(() => {
-    // ScrollTrigger.refresh()
-    // cameraControlsRef.current.target.set(-2, 0, 0);
-    // cameraControlsRef.current.object.position.set(-9.75, 1, 15);
-    // cameraControlsRef.current.update()
+    ScrollTrigger.refresh()
+    cameraControlsRef.current.target.set(-2, 0, 0);
+    cameraControlsRef.current.object.position.set(-9.75, 1, 15);
+    cameraControlsRef.current.update()
     gsap.set('.trigger_popover', {opacity: 0})
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
