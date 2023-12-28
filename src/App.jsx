@@ -22,7 +22,7 @@ function App() {
       <div id="trigger8"></div>
       <div id="trigger9"></div>
       <div className='canvas-container' ref={container}>
-        <Canvas camera={{ fov: 45 }} frameloop="demand" shadows resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }}>
+        <Canvas camera={{ fov: 45 }} frameloop="demand" shadows resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }} style={{'pointer-events': 'none'}}>
             {import.meta.env.DEV ? <Stats /> : ''}
           <Suspense fallback={<Loader />}>
             <Center>
@@ -56,7 +56,7 @@ function Loader() {
   const { progress } = useProgress()
   sessionStorage.removeItem('modelIsLoaded')
   if (progress === 100) {
-    sessionStorage.setItem('modelIsLoaded', true)
+    sessionStorage.setItem('modelIsLoaded', 'true')
   }
 }
 

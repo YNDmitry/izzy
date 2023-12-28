@@ -23,7 +23,7 @@ export function Model(props) {
   const animations = useRef({})
   const { invalidate } = useThree()
   const shouldAnimateRef = useRef(true);
-  let lastElementOffScreen = false;
+  let lastElementOffScreen = useRef(false);
 
   const led = useRef()
   const led2 = useRef()
@@ -102,7 +102,7 @@ export function Model(props) {
     endTrigger: endTrigger,
     scrub: true,
     start: 'top',
-    end: '+=150px',
+    end: '+=20%',
     onEnter: enterCallback,
     onEnterBack: enterCallback,
     onLeave: leaveCallback,
@@ -134,21 +134,21 @@ export function Model(props) {
         endTrigger: endTrigger,
         scrub: true,
         start: 'top',
-        end: '+=150px',
+        end: '+=20%',
         onEnter: () => {
-          if (isFirst || !lastElementOffScreen) gsap.to('#t2', { opacity: 1, duration: 0.2 });
+          if (isFirst || !lastElementOffScreen.current) gsap.to('#t2', { opacity: 1, duration: 0.2 });
           gsap.to(trigger, { opacity: 1, duration: 0.2 })
         },
         onLeave: () => {
           gsap.to(trigger, { opacity: 0.5, duration: 0.2 });
           if (isLast) {
-            lastElementOffScreen = true;
+            lastElementOffScreen.current = true;
             gsap.to('#t2', { opacity: 0, duration: 0.2 });
           }
         },
         onEnterBack: () => {
           if (prevTrigger) gsap.to(prevTrigger, { opacity: 0.5, duration: 0.2 });
-          if (isLast) lastElementOffScreen = false;
+          if (isLast) lastElementOffScreen.current = false;
           gsap.to('#t2', { opacity: 1, duration: 0.2 });
           gsap.to(trigger, { opacity: 1, duration: 0.2 });
         },
@@ -565,7 +565,7 @@ function Annotation({ children, anchor, icon, id, comboClass, distanceFactor, on
   }, [onReady, id]);
 
   return (
-      <Html{...props} position={anchor} className={'trigger_popover'}>
+      <Html{...props} position={anchor} className={'trigger_popover'} style={{'pointer-events': 'none'}}>
         <div className={`trigger_text-wrapper ${comboClass}`} id={id}>
           {children}
           {icon && <div className="trigger_icon">{icon}</div>}
