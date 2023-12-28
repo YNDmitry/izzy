@@ -9,7 +9,6 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "pre-commit": ["build"],
   "dependencies": {
     "@gsap/react": "^2.0.2",
     "@react-three/drei": "^9.92.5",

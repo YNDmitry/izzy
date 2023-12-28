@@ -22,7 +22,7 @@ function App() {
       <div id="trigger8"></div>
       <div id="trigger9"></div>
       <div className='canvas-container' ref={container}>
-        <Canvas camera={{ fov: 45 }} frameloop="demand" shadows resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }} style={{'pointer-events': 'none'}}>
+        <Canvas camera={{ fov: 45 }} frameloop="demand" shadows resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }} style={{'pointerEvents': 'none'}}>
             {import.meta.env.DEV ? <Stats /> : ''}
           <Suspense fallback={<Loader />}>
             <Center>

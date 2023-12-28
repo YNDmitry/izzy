@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import {forwardRef, useCallback, useEffect, useLayoutEffect, useRef, useState} from "react";
 import {Html, OrbitControls, useGLTF} from "@react-three/drei";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -13,6 +13,7 @@ import {IconT7} from "./Icons/IconT7.jsx";
 import {IconT8} from "./Icons/IconT8.jsx";
 import {IconT9} from "./Icons/IconT9.jsx";
 import {IconT10} from "./Icons/IconT10.jsx";
+import {useGSAP} from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -161,265 +162,258 @@ export function Model(props) {
   }
 
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
-  const [readyAnnotations, setReadyAnnotations] = useState({});
-  const allAnnotationsReady = Object.keys(readyAnnotations).length === 10;
 
-    const handleAnnotationReady = useCallback((id) => {
-      setReadyAnnotations(prev => ({ ...prev, [id]: true }));
-    }, []);
   useEffect(() => {
-    if (!nodes) return
+    if (!model.current) return
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
 
     window.addEventListener('resize', handleResize);
 
-    if (allAnnotationsReady) {
-      cameraControlsRef.current.target.set(-2, 0, 0);
-      cameraControlsRef.current.object.position.set(-9.75, 1, 15);
-      cameraControlsRef.current.update()
-      gsap.set('.trigger_text-wrapper', {opacity: 0})
-      gsap.to(led.current.material, {
-        scrollTrigger: createLedScrollTrigger(
-            '#trigger2-1',
-            '#trigger2-2',
-            () => {
-              led.current.material = initializeMaterial(ledColors.blue)
-              invalidate()
-            },
-            () => {
-              led.current.material = initializeMaterial(ledColors.blue)
-              invalidate()
-            }
-        )
-      });
+    cameraControlsRef.current.target.set(-2, 0, 0);
+    cameraControlsRef.current.object.position.set(-9.75, 1, 15);
+    cameraControlsRef.current.update()
 
-      gsap.to(led.current.material, {
-        scrollTrigger: createLedScrollTrigger(
-            '#trigger2-2',
-            '#trigger2-3',
-            () => {
-              led.current.material = initializeMaterial(ledColors.green)
-              invalidate()
-              shouldAnimateRef.current = false
-            },
-            () => {
-              led.current.material = initializeMaterial(ledColors.green)
-              invalidate()
-              shouldAnimateRef.current = false
-            }
-        )
-      });
-
-      gsap.to(led.current.material, {
-        scrollTrigger: createLedScrollTrigger(
-            '#trigger2-3',
-            '#trigger2-4',
-            () => {
-              shouldAnimateRef.current = true
-              led.current.material = initializeMaterial(ledColors.red)
-              animateMaterial(led.current.material, 0.25)
-            },
-            () => {
-              shouldAnimateRef.current = true
-              led.current.material = initializeMaterial(ledColors.red)
-              animateMaterial(led.current.material, 0.25)
-            }
-        )
-      });
-
-      gsap.to(led.current.material, {
-        scrollTrigger: createLedScrollTrigger(
-            '#trigger2-4',
-            '#trigger2-5',
-            () => {
-              shouldAnimateRef.current = true
-              led.current.material = initializeMaterial(ledColors.red)
-              animateMaterial(led.current.material, 0.1)
-            },
-            () => {
-              shouldAnimateRef.current = true
-              led.current.material = initializeMaterial(ledColors.red)
-              animateMaterial(led.current.material, 0.1)
-            }
-        )
-      });
-
-      gsap.to(led.current.material, {
-        scrollTrigger: createLedScrollTrigger(
-            '#trigger2-5',
-            '#trigger2-5',
-            () => {
-              shouldAnimateRef.current = false
-              led.current.material = initializeMaterial(ledColors.blue)
-            },
-            () => {
-            }
-        )
-      });
-
-      animations.current.tl1 = createTimeline(
-          { trigger: '#trigger1', endTrigger: '#trigger2-1' },
-          { start: { x: -2, y: 0, z: 0 }, end: { x: -3, y: 1, z: -1 } },
-          { start: { x: -9.75, y: 1, z: 15 }, end: { x: -4.74, y: 1, z: 5 } },
-          { start: { x: 0, y: 0, z: 0 }, end: { x: 0, y: 0, z: 0 } }
-      );
-
-      animations.current.tl2 = createTimeline(
-          { trigger: '#trigger3', endTrigger: '#trigger4' },
-          { start: { x: -3, y: 1, z: -1 }, end: { x: -6, y: 0, z: 0 } },
-          { start: { x: -4.74, y: 1, z: 5, }, end: { x: 0.25, y: 7, z: 0 } }
+    gsap.to(led.current.material, {
+      scrollTrigger: createLedScrollTrigger(
+          '#trigger2-1',
+          '#trigger2-2',
+          () => {
+            led.current.material = initializeMaterial(ledColors.blue)
+            invalidate()
+          },
+          () => {
+            led.current.material = initializeMaterial(ledColors.blue)
+            invalidate()
+          }
       )
+    });
 
-      if (window.innerWidth > 1024) {
-        animations.current.tl3 = createTimeline(
-            { trigger: '#trigger4', endTrigger: '#trigger5' },
-            { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
-            { start: { x: 0.25, y: 7, z: 0 }, end: { x: 2, y: 9, z: 0 } }
-        );
-        animations.current.tl4 = createTimeline(
-            { trigger: '#trigger5', endTrigger: '#trigger6' },
-            { start: { x: -6, y: 0, z: 0 }, end: { x: -2, y: 4, z: 0 } },
-            { start: { x: 2, y: 9, z: 0 }, end: { x: -7, y: 5, z: -4 } },
-            { start: { x: 0, y: 0, z: 0 }, end: { x: -2, y: -1, z: -3 } }
-        );
-        animations.current.tl5 = createTimeline(
-            { trigger: '#trigger6', endTrigger: '#trigger7' },
-            { start: { x: -2, y: 4, z: 0 }, end: { x: -2, y: 4, z: 0 } },
-            { start: { x: -7, y: 5, z: -4 }, end: { x: -5, y: 5, z: 6 } },
-            { start: { x: -2, y: -1, z: -3 }, end: { x: 2, y: 0, z: 5 } }
-        );
-        animations.current.tl6 = createTimeline(
-            { trigger: '#trigger7', endTrigger: '#trigger8' },
-            { start: { x: -2, y: 4, z: 0 }, end: { x: 0, y: -4, z: 0 } },
-            { start: { x: -5, y: 5, z: 6 }, end: { x: 9, y: 3, z: -8 } },
-            { start: { x: 2, y: 0, z: 5 }, end: { x: -2, y: 0, z: 3 } }
-        )
-        animations.current.tl7 = createTimeline(
-            { trigger: '#trigger8', endTrigger: '#trigger9' },
-            { start: { x: 0, y: -4, z: 0 }, end: { x: 0, y: -3, z: 0 } },
-            { start: { x: 9, y: 3, z: -8 }, end: { x: 6, y: 3, z: 9 } },
-            { start: { x: -2, y: 0, z: 3 }, end: { x: -2, y: 1, z: 2 } },
-            true
-        );
-      } else {
-        animations.current.tl3 = createTimeline(
-            { trigger: '#trigger4', endTrigger: '#trigger5' },
-            { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
-            { start: { x: 0.25, y: 7, z: 0 }, end: { x: 3, y: 15, z: 0 } }
-        );
-        animations.current.tl4 = createTimeline(
-            { trigger: '#trigger5', endTrigger: '#trigger6' },
-            { start: { x: -6, y: 0, z: 0 }, end: { x: -2, y: 4, z: 0 } },
-            { start: { x: 3, y: 15, z: 0 }, end: { x: -7, y: 5, z: -4 } },
-            { start: { x: 0, y: 0, z: 0 }, end: { x: -2, y: -1, z: -3 } }
-        );
-        animations.current.tl5 = createTimeline(
-            { trigger: '#trigger6', endTrigger: '#trigger7' },
-            { start: { x: -2, y: 4, z: 0 }, end: { x: -2, y: 4, z: 0 } },
-            { start: { x: -7, y: 5, z: -4 }, end: { x: -5, y: 7, z: 6 } },
-            { start: { x: -2, y: -1, z: -3 }, end: { x: 3, y: 0, z: 5 } }
-        );
-        animations.current.tl6 = createTimeline(
-            { trigger: '#trigger7', endTrigger: '#trigger8' },
-            { start: { x: -2, y: 4, z: 0 }, end: { x: 4, y: -4, z: 0 } },
-            { start: { x: -5, y: 7, z: 6 }, end: { x: 12, y: 3, z: -8 } },
-            { start: { x: 3, y: 0, z: 5 }, end: { x: 0, y: 0, z: 2 } }
-        )
-        animations.current.tl7 = createTimeline(
-            { trigger: '#trigger8', endTrigger: '#trigger9' },
-            { start: { x: 4, y: -4, z: 0 }, end: { x: 0, y: -4, z: 0 } },
-            { start: { x: 12, y: 3, z: -8 }, end: { x: 5, y: 3, z: 8 } },
-            { start: { x: 0, y: 0, z: 2 }, end: { x: 0, y: 0, z: 2 } },
-            true
-        )
-      }
-
-      textTriggerAnimation('#t2-1', '#trigger2-1', '#trigger2-2', null, true, false);
-      textTriggerAnimation('#t2-2', '#trigger2-2', '#trigger2-3', '#t2-1', false, false);
-      textTriggerAnimation('#t2-3', '#trigger2-3', '#trigger2-4', '#t2-2', false, false);
-      textTriggerAnimation('#t2-4', '#trigger2-4', '#trigger2-5', '#t2-3', false, true);
-      animations.current.tl1.add(textWithArrowAnimation('#t1', '#trigger1', '#trigger2-1'))
-      animations.current.tl2.add(textWithArrowAnimation('#t3', '#trigger3', '#trigger4'))
-      animations.current.tl3.add(textWithArrowAnimation('#t4', '#trigger4', '#trigger5'))
-      animations.current.tl3.add(textWithArrowAnimation('#t5', '#trigger4', '#trigger5'))
-      animations.current.tl3.add(textWithArrowAnimation('#t6', '#trigger4', '#trigger5'))
-      animations.current.tl4.add(textWithArrowAnimation('#t7', '#trigger5', '#trigger6'))
-      animations.current.tl5.add(textWithArrowAnimation('#t8', '#trigger6', '#trigger7'))
-      animations.current.tl6.add(textWithArrowAnimation('#t9', '#trigger7', '#trigger8'))
-      animations.current.tl7.add(textWithArrowAnimation('#t10', '#trigger8', '#trigger9'))
-
-      gsap.to(led2.current.material, {
-        scrollTrigger: {
-          trigger: '#trigger5',
-          start: 'bottom',
-          end: 'bottom',
-          scrub: true,
-          onEnter: () => {
+    gsap.to(led.current.material, {
+      scrollTrigger: createLedScrollTrigger(
+          '#trigger2-2',
+          '#trigger2-3',
+          () => {
+            led.current.material = initializeMaterial(ledColors.green)
+            invalidate()
             shouldAnimateRef.current = false
-            led2.current.material = initializeMaterial('white')
           },
-          onLeaveBack: () => {
+          () => {
+            led.current.material = initializeMaterial(ledColors.green)
+            invalidate()
             shouldAnimateRef.current = false
-            led2.current.material = initializeMaterial('white')
           }
-        }
-      })
+      )
+    });
 
-      gsap.to(led2.current.material, {
-        scrollTrigger: {
-          trigger: '#trigger6',
-          start: 'bottom bottom',
-          end: '+=100px top',
-          scrub: true,
-          onEnter: () => {
+    gsap.to(led.current.material, {
+      scrollTrigger: createLedScrollTrigger(
+          '#trigger2-3',
+          '#trigger2-4',
+          () => {
             shouldAnimateRef.current = true
-            led2.current.material = initializeMaterial(ledColors.orange)
-            animateMaterial(led2.current.material, 0.3)
+            led.current.material = initializeMaterial(ledColors.red)
+            animateMaterial(led.current.material, 0.25)
           },
-          onLeave: () => {
-            shouldAnimateRef.current = false
-            led2.current.material = initializeMaterial('white')
-          },
-          onEnterBack: () => {
+          () => {
             shouldAnimateRef.current = true
-            led2.current.material = initializeMaterial(ledColors.orange)
-            animateMaterial(led2.current.material, 0.3)
+            led.current.material = initializeMaterial(ledColors.red)
+            animateMaterial(led.current.material, 0.25)
           }
-        },
-      })
+      )
+    });
 
-      gsap.to(led3.current.material, {
-        scrollTrigger: {
-          trigger: '#trigger7',
-          start: 'bottom bottom',
-          end: '+=100px top',
-          scrub: true,
-          onEnter: () => {
+    gsap.to(led.current.material, {
+      scrollTrigger: createLedScrollTrigger(
+          '#trigger2-4',
+          '#trigger2-5',
+          () => {
             shouldAnimateRef.current = true
-            led3.current.material = initializeMaterial(ledColors.orange)
-            animateMaterial(led3.current.material, 0.3)
+            led.current.material = initializeMaterial(ledColors.red)
+            animateMaterial(led.current.material, 0.1)
           },
-          onLeave: () => {
-            shouldAnimateRef.current = false
-            led3.current.material = initializeMaterial('white')
-          },
-          onEnterBack: () => {
+          () => {
             shouldAnimateRef.current = true
-            led3.current.material = initializeMaterial(ledColors.orange)
-            animateMaterial(led3.current.material, 0.3)
+            led.current.material = initializeMaterial(ledColors.red)
+            animateMaterial(led.current.material, 0.1)
           }
-        },
-      })
+      )
+    });
+
+    gsap.to(led.current.material, {
+      scrollTrigger: createLedScrollTrigger(
+          '#trigger2-5',
+          '#trigger2-5',
+          () => {
+            shouldAnimateRef.current = false
+            led.current.material = initializeMaterial(ledColors.blue)
+          },
+          () => {
+          }
+      )
+    });
+
+    animations.current.tl1 = createTimeline(
+        { trigger: '#trigger1', endTrigger: '#trigger2-1' },
+        { start: { x: -2, y: 0, z: 0 }, end: { x: -3, y: 1, z: -1 } },
+        { start: { x: -9.75, y: 1, z: 15 }, end: { x: -4.74, y: 1, z: 5 } },
+        { start: { x: 0, y: 0, z: 0 }, end: { x: 0, y: 0, z: 0 } }
+    );
+
+    animations.current.tl2 = createTimeline(
+        { trigger: '#trigger3', endTrigger: '#trigger4' },
+        { start: { x: -3, y: 1, z: -1 }, end: { x: -6, y: 0, z: 0 } },
+        { start: { x: -4.74, y: 1, z: 5, }, end: { x: 0.25, y: 7, z: 0 } }
+    )
+
+    if (window.innerWidth > 1024) {
+      animations.current.tl3 = createTimeline(
+          { trigger: '#trigger4', endTrigger: '#trigger5' },
+          { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
+          { start: { x: 0.25, y: 7, z: 0 }, end: { x: 2, y: 9, z: 0 } }
+      );
+      animations.current.tl4 = createTimeline(
+          { trigger: '#trigger5', endTrigger: '#trigger6' },
+          { start: { x: -6, y: 0, z: 0 }, end: { x: -2, y: 4, z: 0 } },
+          { start: { x: 2, y: 9, z: 0 }, end: { x: -7, y: 5, z: -4 } },
+          { start: { x: 0, y: 0, z: 0 }, end: { x: -2, y: -1, z: -3 } }
+      );
+      animations.current.tl5 = createTimeline(
+          { trigger: '#trigger6', endTrigger: '#trigger7' },
+          { start: { x: -2, y: 4, z: 0 }, end: { x: -2, y: 4, z: 0 } },
+          { start: { x: -7, y: 5, z: -4 }, end: { x: -5, y: 5, z: 6 } },
+          { start: { x: -2, y: -1, z: -3 }, end: { x: 2, y: 0, z: 5 } }
+      );
+      animations.current.tl6 = createTimeline(
+          { trigger: '#trigger7', endTrigger: '#trigger8' },
+          { start: { x: -2, y: 4, z: 0 }, end: { x: 0, y: -4, z: 0 } },
+          { start: { x: -5, y: 5, z: 6 }, end: { x: 9, y: 3, z: -8 } },
+          { start: { x: 2, y: 0, z: 5 }, end: { x: -2, y: 0, z: 3 } }
+      )
+      animations.current.tl7 = createTimeline(
+          { trigger: '#trigger8', endTrigger: '#trigger9' },
+          { start: { x: 0, y: -4, z: 0 }, end: { x: 0, y: -3, z: 0 } },
+          { start: { x: 9, y: 3, z: -8 }, end: { x: 6, y: 3, z: 9 } },
+          { start: { x: -2, y: 0, z: 3 }, end: { x: -2, y: 1, z: 2 } },
+          true
+      );
+    } else {
+      animations.current.tl3 = createTimeline(
+          { trigger: '#trigger4', endTrigger: '#trigger5' },
+          { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
+          { start: { x: 0.25, y: 7, z: 0 }, end: { x: 3, y: 15, z: 0 } }
+      );
+      animations.current.tl4 = createTimeline(
+          { trigger: '#trigger5', endTrigger: '#trigger6' },
+          { start: { x: -6, y: 0, z: 0 }, end: { x: -2, y: 4, z: 0 } },
+          { start: { x: 3, y: 15, z: 0 }, end: { x: -7, y: 5, z: -4 } },
+          { start: { x: 0, y: 0, z: 0 }, end: { x: -2, y: -1, z: -3 } }
+      );
+      animations.current.tl5 = createTimeline(
+          { trigger: '#trigger6', endTrigger: '#trigger7' },
+          { start: { x: -2, y: 4, z: 0 }, end: { x: -2, y: 4, z: 0 } },
+          { start: { x: -7, y: 5, z: -4 }, end: { x: -5, y: 7, z: 6 } },
+          { start: { x: -2, y: -1, z: -3 }, end: { x: 3, y: 0, z: 5 } }
+      );
+      animations.current.tl6 = createTimeline(
+          { trigger: '#trigger7', endTrigger: '#trigger8' },
+          { start: { x: -2, y: 4, z: 0 }, end: { x: 4, y: -4, z: 0 } },
+          { start: { x: -5, y: 7, z: 6 }, end: { x: 12, y: 3, z: -8 } },
+          { start: { x: 3, y: 0, z: 5 }, end: { x: 0, y: 0, z: 2 } }
+      )
+      animations.current.tl7 = createTimeline(
+          { trigger: '#trigger8', endTrigger: '#trigger9' },
+          { start: { x: 4, y: -4, z: 0 }, end: { x: 0, y: -4, z: 0 } },
+          { start: { x: 12, y: 3, z: -8 }, end: { x: 5, y: 3, z: 8 } },
+          { start: { x: 0, y: 0, z: 2 }, end: { x: 0, y: 0, z: 2 } },
+          true
+      )
     }
+
+    textTriggerAnimation('#t2-1', '#trigger2-1', '#trigger2-2', null, true, false);
+    textTriggerAnimation('#t2-2', '#trigger2-2', '#trigger2-3', '#t2-1', false, false);
+    textTriggerAnimation('#t2-3', '#trigger2-3', '#trigger2-4', '#t2-2', false, false);
+    textTriggerAnimation('#t2-4', '#trigger2-4', '#trigger2-5', '#t2-3', false, true);
+    textWithArrowAnimation('#t1', '#trigger1', '#trigger2-1')
+    textWithArrowAnimation('#t3', '#trigger3', '#trigger4')
+    textWithArrowAnimation('#t4', '#trigger4', '#trigger5')
+    textWithArrowAnimation('#t5', '#trigger4', '#trigger5')
+    textWithArrowAnimation('#t6', '#trigger4', '#trigger5')
+    textWithArrowAnimation('#t7', '#trigger5', '#trigger6')
+    textWithArrowAnimation('#t8', '#trigger6', '#trigger7')
+    textWithArrowAnimation('#t9', '#trigger7', '#trigger8')
+    textWithArrowAnimation('#t10', '#trigger8', '#trigger9')
+
+    gsap.to(led2.current.material, {
+      scrollTrigger: {
+        trigger: '#trigger5',
+        start: 'bottom',
+        end: 'bottom',
+        scrub: true,
+        onEnter: () => {
+          shouldAnimateRef.current = false
+          led2.current.material = initializeMaterial('white')
+        },
+        onLeaveBack: () => {
+          shouldAnimateRef.current = false
+          led2.current.material = initializeMaterial('white')
+        }
+      }
+    })
+
+    gsap.to(led2.current.material, {
+      scrollTrigger: {
+        trigger: '#trigger6',
+        start: 'bottom bottom',
+        end: '+=100px top',
+        scrub: true,
+        onEnter: () => {
+          shouldAnimateRef.current = true
+          led2.current.material = initializeMaterial(ledColors.orange)
+          animateMaterial(led2.current.material, 0.3)
+        },
+        onLeave: () => {
+          shouldAnimateRef.current = false
+          led2.current.material = initializeMaterial('white')
+        },
+        onEnterBack: () => {
+          shouldAnimateRef.current = true
+          led2.current.material = initializeMaterial(ledColors.orange)
+          animateMaterial(led2.current.material, 0.3)
+        }
+      },
+    })
+
+    gsap.to(led3.current.material, {
+      scrollTrigger: {
+        trigger: '#trigger7',
+        start: 'bottom bottom',
+        end: '+=100px top',
+        scrub: true,
+        onEnter: () => {
+          shouldAnimateRef.current = true
+          led3.current.material = initializeMaterial(ledColors.orange)
+          animateMaterial(led3.current.material, 0.3)
+        },
+        onLeave: () => {
+          shouldAnimateRef.current = false
+          led3.current.material = initializeMaterial('white')
+        },
+        onEnterBack: () => {
+          shouldAnimateRef.current = true
+          led3.current.material = initializeMaterial(ledColors.orange)
+          animateMaterial(led3.current.material, 0.3)
+        }
+      },
+    })
 
     return () => {
       window.removeEventListener('resize', handleResize)
-      // Object.values(animations.current).forEach(tl => tl.kill());
-      // ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, [allAnnotationsReady, nodes])
+      Object.values(animations.current).forEach(tl => tl.kill());
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    }
+  }, [])
 
   const anchorPositions = {
     't1': {
@@ -487,26 +481,27 @@ export function Model(props) {
   return (
     <>
       <OrbitControls
-        ref={cameraControlsRef}
-        enableZoom={false}
-        enableRotate={false}
-        enableDamping={false}
-        enabled={false}
-        makeDefault
+          ref={cameraControlsRef}
+          target={[-2, 0, 0]}
+          enableZoom={false}
+          enableRotate={false}
+          enableDamping={false}
+          enabled={false}
+          makeDefault
       />
       <group {...props} dispose={null} scale={5} ref={model}>
         <group name="Scene">
           <mesh name="Cube019" geometry={nodes.Cube019.geometry} material={materials.main} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} castShadow={true} receiveShadow={true}>
-            <Annotation onReady={handleAnnotationReady} anchor={getAnchorPosition('t10')} id='t10' icon={<IconT10/>} center comboClass={'is-v7'}>
+            <Annotation anchor={getAnchorPosition('t10')} id='t10' icon={<IconT10/>} center comboClass={'is-v7'}>
               <div className="trigger_text is-big order">Устойчивая платформа <span className={'text-color-gray'}>с нескользящей поверхностью</span></div>
             </Annotation>
           </mesh>
           <mesh name="Cube011" geometry={nodes.Cube011.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
           <mesh ref={led} name="Cylinder010" geometry={nodes.Cylinder010.geometry} material={materials.emission} position={[0.073, 0.131, -2.183]} rotation={[0, 0, -0.25]}>
-            <Annotation onReady={handleAnnotationReady} anchor={getAnchorPosition('t1')} id='t1' icon={<IconT1/>} comboClass={'is-1'}>
+            <Annotation anchor={getAnchorPosition('t1')} id='t1' icon={<IconT1/>} comboClass={'is-1'}>
               <div className="trigger_text">Яркий индикатор <span className={'text-color-gray'}>заметен в любое время суток</span></div>
             </Annotation>
-            <Annotation onReady={handleAnnotationReady} anchor={getAnchorPosition('t2')} id='t2' comboClass={'is-v2'}>
+            <Annotation anchor={getAnchorPosition('t2')} id='t2' comboClass={'is-v2'}>
               <div id="t2-1" className="trigger_text is-v2">Доступен</div>
               <div id="t2-2" className="trigger_text is-v2">Активен</div>
               <div id="t2-3" className="trigger_text is-v2">Поворот</div>
@@ -515,32 +510,32 @@ export function Model(props) {
             <meshStandardMaterial roughness={0} metalness={0} color={currentLed.current} emissive={currentLed.current} emissiveIntensity={54} />
           </mesh>
           <mesh ref={led3} name="Cube013" geometry={nodes.Cube013.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]}>
-            <Annotation onReady={handleAnnotationReady} anchor={getAnchorPosition('t3')} id='t3' icon={<IconT3/>} comboClass={'is-v3'}>
+            <Annotation anchor={getAnchorPosition('t3')} id='t3' icon={<IconT3/>} comboClass={'is-v3'}>
               <div className="trigger_text order">Приборная панель <span className={'text-color-gray'}>с простым интерфейсом</span></div>
             </Annotation>
-            <Annotation onReady={handleAnnotationReady} anchor={getAnchorPosition('t4')} center id='t4' icon={<IconT4/>} comboClass={'is-2'}>
+            <Annotation anchor={getAnchorPosition('t4')} center id='t4' icon={<IconT4/>} comboClass={'is-2'}>
               <div className="trigger_text is-small">Надежный тормоз</div>
             </Annotation>
-            <Annotation onReady={handleAnnotationReady} anchor={getAnchorPosition('t5')} center id='t5' icon={<IconT5/>} comboClass={'is-v4'}>
+            <Annotation anchor={getAnchorPosition('t5')} center id='t5' icon={<IconT5/>} comboClass={'is-v4'}>
               <div className="trigger_text">Фиксатор для смартфона <span className={'text-color-gray'}>с беспроводной зарядкой</span></div>
             </Annotation>
-            <Annotation onReady={handleAnnotationReady} anchor={getAnchorPosition('t6')} id='t6' icon={<IconT6/>} comboClass={'is-v3'}>
+            <Annotation anchor={getAnchorPosition('t6')} id='t6' icon={<IconT6/>} comboClass={'is-v3'}>
               <div className="trigger_text order">Мягкая кнопка старта</div>
             </Annotation>
-            <Annotation onReady={handleAnnotationReady} anchor={getAnchorPosition('t9')} id='t9' icon={<IconT9/>} center>
+            <Annotation anchor={getAnchorPosition('t9')} id='t9' icon={<IconT9/>} center>
               <div className="trigger_text">Даже на заднем колесе</div>
             </Annotation>
             <meshStandardMaterial roughness={0} metalness={0} color={'white'} emissive={'white'} emissiveIntensity={54} />
           </mesh>
           <mesh ref={led2} name="Cube015" geometry={nodes.Cube015.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]}>
-            <Annotation onReady={handleAnnotationReady} anchor={getAnchorPosition('t8')} id='t8' icon={<IconT8/>} comboClass={'is-v6'} center>
+            <Annotation anchor={getAnchorPosition('t8')} id='t8' icon={<IconT8/>} comboClass={'is-v6'} center>
               <div className="trigger_text order">Заметные поворотные огни</div>
             </Annotation>
             <meshStandardMaterial roughness={0} metalness={0} color={'white'} emissive={'white'} emissiveIntensity={54} />
           </mesh>
           <mesh name="Cube016" geometry={nodes.Cube016.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
           <mesh name="Cube017" geometry={nodes.Cube017.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]}>
-            <Annotation onReady={handleAnnotationReady} anchor={getAnchorPosition('t7')} id='t7' icon={<IconT7/>} comboClass={'is-v5'} center>
+            <Annotation anchor={getAnchorPosition('t7')} id='t7' icon={<IconT7/>} comboClass={'is-v5'} center>
               <div className="trigger_text is-big">Мощная фара <span className={'text-color-gray'}>для безопасности пользователя и окружающих</span></div>
             </Annotation>
           </mesh>
@@ -557,21 +552,15 @@ export function Model(props) {
   )
 }
 
-function Annotation({ children, anchor, icon, id, comboClass, distanceFactor, onReady, ...props }) {
-  useEffect(() => {
-    if (onReady) {
-      onReady(id);
-    }
-  }, [onReady, id]);
-
+const Annotation = forwardRef(({ children, anchor, icon, id, comboClass, distanceFactor, ...props }, ref) => {
   return (
-      <Html{...props} position={anchor} className={'trigger_popover'} style={{'pointer-events': 'none'}}>
-        <div className={`trigger_text-wrapper ${comboClass}`} id={id}>
-          {children}
-          {icon && <div className="trigger_icon">{icon}</div>}
-        </div>
-      </Html>
-  )
-}
+<Html{...props} ref={ref} position={anchor} className={'trigger_popover'} style={{'pointerEvents': 'none'}}>
+  <div className={`trigger_text-wrapper ${comboClass}`} id={id}>
+    {children}
+    {icon && <div className="trigger_icon">{icon}</div>}
+  </div>
+</Html>
+)
+})
 
 useGLTF.preload("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/6589dabe5b7d61bf88af9927_scooter-transformed.glb.txt");
