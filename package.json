@@ -9,6 +9,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "pre-commit": ["build"],
   "dependencies": {
     "@gsap/react": "^2.0.2",
     "@react-three/drei": "^9.92.5",
@@ -29,6 +30,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "leva": "^0.9.35",
+    "pre-commit": "^1.2.2",
     "vite": "^5.0.8"
   }
 }
