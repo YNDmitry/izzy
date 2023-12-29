@@ -126,6 +126,7 @@ export function Model(props) {
     })
   }
 
+
   const textTriggerAnimation = (trigger, startTrigger, endTrigger, prevTrigger, isFirst, isLast) => {
     gsap.set(trigger, { opacity: 0 });
 
