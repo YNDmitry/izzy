@@ -59,7 +59,8 @@ export function Model(props) {
         endTrigger: triggers.endTrigger,
         scrub: true,
         start: 'top top',
-        end: '+=500px bottom',
+        end: '+=60% bottom',
+        markers: import.meta.env.DEV ? true : false,
         onUpdate: () => cameraControlsRef.current.update()
       }
     });
@@ -116,8 +117,12 @@ export function Model(props) {
         trigger: startTrigger,
         endTrigger: endTrigger,
         scrub: true,
-        start: '+=500px',
-        end: '+=400px',
+        start: '+=60%',
+        end: '+=40%',
+        markers: import.meta.env.DEV ? {
+            startColor: 'white',
+            endColor: 'white'
+        } : false,
         onEnter: () => gsap.to(trigger, { opacity: 1, duration: 0.2 }),
         onEnterBack: () => gsap.to(trigger, { opacity: 1, duration: 0.2 }),
         onLeave: () => gsap.to(trigger, { opacity: 0, duration: 0.2 }),
@@ -125,7 +130,6 @@ export function Model(props) {
       }
     })
   }
-
 
   const textTriggerAnimation = (trigger, startTrigger, endTrigger, prevTrigger, isFirst, isLast) => {
     gsap.set(trigger, { opacity: 0 });
@@ -175,6 +179,7 @@ export function Model(props) {
     cameraControlsRef.current.target.set(-2, 0, 0);
     cameraControlsRef.current.object.position.set(-9.75, 1, 15);
     cameraControlsRef.current.update()
+    invalidate()
 
     gsap.to(led.current.material, {
       scrollTrigger: createLedScrollTrigger(
@@ -367,7 +372,7 @@ export function Model(props) {
       scrollTrigger: {
         trigger: '#trigger6',
         start: 'bottom bottom',
-        end: '+=100px top',
+        end: '+=10% top',
         scrub: true,
         onEnter: () => {
           shouldAnimateRef.current = true
@@ -390,7 +395,7 @@ export function Model(props) {
       scrollTrigger: {
         trigger: '#trigger7',
         start: 'bottom bottom',
-        end: '+=100px top',
+        end: '+=10% top',
         scrub: true,
         onEnter: () => {
           shouldAnimateRef.current = true
@@ -414,7 +419,7 @@ export function Model(props) {
       Object.values(animations.current).forEach(tl => tl.kill());
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     }
-  }, [])
+  }, [invalidate])
 
   const anchorPositions = {
     't1': {
