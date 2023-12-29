@@ -112,6 +112,7 @@ export function Model(props) {
   }), [])
 
   const textWithArrowAnimation = (trigger, startTrigger, endTrigger) => {
+    const stops = document.querySelectorAll(`${trigger} .gradient stop`);
     gsap.to(trigger, {
       scrollTrigger: {
         trigger: startTrigger,
@@ -123,10 +124,24 @@ export function Model(props) {
             startColor: 'white',
             endColor: 'white'
         } : false,
-        onEnter: () => gsap.to(trigger, { opacity: 1, duration: 0.2 }),
-        onEnterBack: () => gsap.to(trigger, { opacity: 1, duration: 0.2 }),
-        onLeave: () => gsap.to(trigger, { opacity: 0, duration: 0.2 }),
-        onLeaveBack: () => gsap.to(trigger, { opacity: 0, duration: 0.2 }),
+        onEnter: () => {
+          gsap.to(trigger, {opacity: 1, duration: 0.2})
+          gsap.fromTo(stops[0], {attr: { offset: '0%' }}, {attr: { offset: '200%' }, duration: 2, delay: 1});
+          gsap.fromTo(stops[1], {attr: { offset: '0%' }},{attr: { offset: '100%' }, duration: 2});
+        },
+        onEnterBack: () => {
+          gsap.to(trigger, {opacity: 1, duration: 0.2})
+          gsap.fromTo(stops[0], {attr: { offset: '0%' }}, {attr: { offset: '200%' }, duration: 2, delay: 1});
+          gsap.fromTo(stops[1], {attr: { offset: '0%' }},{attr: { offset: '100%' }, duration: 2});
+        },
+        onLeave: () => {
+          gsap.to(trigger, {opacity: 0, duration: 0.2})
+        },
+        onLeaveBack: () => {
+          gsap.to(trigger, {opacity: 0, duration: 0.2})
+          gsap.fromTo(stops[0], {attr: { offset: '0%' }}, {attr: { offset: '200%' }, duration: 2, delay: 1});
+          gsap.fromTo(stops[1], {attr: { offset: '0%' }},{attr: { offset: '100%' }, duration: 2});
+        },
       }
     })
   }
@@ -273,7 +288,7 @@ export function Model(props) {
         { start: { x: -4.74, y: 1, z: 5, }, end: { x: 0.25, y: 7, z: 0 } }
     )
 
-    if (window.innerWidth > 1024) {
+    if (window.innerWidth > 1220) {
       animations.current.tl3 = createTimeline(
           { trigger: '#trigger4', endTrigger: '#trigger5' },
           { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
@@ -423,7 +438,7 @@ export function Model(props) {
 
   const anchorPositions = {
     't1': {
-      desktop: [-1.6, 0.10, -6.20],
+      desktop: [-1.6, 0.10, -5.2],
       tablet: [0, 0.6, -1.3],
       mobile: [0.1, 0.9, -2.7]
     },
@@ -475,7 +490,7 @@ export function Model(props) {
   }
 
   const getAnchorPosition = useCallback((id) => {
-    if (windowSize.width > 1024) {
+    if (windowSize.width > 1220) {
       return anchorPositions[id].desktop;
     } else if (windowSize.width > 479) {
       return anchorPositions[id].tablet;
