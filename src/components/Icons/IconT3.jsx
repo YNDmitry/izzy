@@ -1,19 +1,12 @@
 export function IconT3() {
     const isTablet = window.innerWidth <= 1220
-    const gradientId = `gradient-${Math.random().toString(16).slice(2)}`
     return (
         <>
             {!isTablet
                 ? <svg style={{'width': '25vh'}} width="100%" height="100%" viewBox="0 0 205 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id={gradientId} className={'gradient'} x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#00FFD8"/>
-                            <stop offset="0%" stopColor="#4E4E4E"/>
-                        </linearGradient>
-                    </defs>
                     <path
                         d="M1.99999 2H82.4003C93.5126 2 102.494 11.0585 102.4 22.1704L102.13 53.8296C102.035 64.9415 111.017 74 122.129 74H202"
-                        stroke={`url(#${gradientId})`}/>
+                        stroke="#ffffff"/>
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 0 4)" fill="#4E4E4E"/>
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 201 76)" fill="#4E4E4E"/>
                 </svg>

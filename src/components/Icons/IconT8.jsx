@@ -1,17 +1,10 @@
 export function IconT8() {
     const isTablet = window.innerWidth <= 1220
-    const gradientId = `gradient-${Math.random().toString(16).slice(2)}`
     return (
         <>
             {!isTablet ?
                 <svg style={{'width': '11vh'}} width="100%" height="100%" viewBox="0 0 92 204" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id={gradientId} className={'gradient'} x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#00FFD8"/>
-                            <stop offset="0%" stopColor="#4E4E4E"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M2.5395 2L2.05409 181.946C2.02424 193.013 10.9873 202 22.054 202H90" stroke={`url(#${gradientId})`}/>
+                    <path d="M2.5395 2L2.05409 181.946C2.02424 193.013 10.9873 202 22.054 202H90" stroke="#ffffff"/>
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 0.299805 4)" fill="#4E4E4E"/>
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 88 204)" fill="#4E4E4E"/>
                 </svg> :

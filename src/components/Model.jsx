@@ -124,24 +124,10 @@ export function Model(props) {
             startColor: 'white',
             endColor: 'white'
         } : false,
-        onEnter: () => {
-          gsap.to(trigger, {opacity: 1, duration: 0.2})
-          gsap.fromTo(stops[0], {attr: { offset: '0%' }}, {attr: { offset: '200%' }, duration: 2, delay: 1});
-          gsap.fromTo(stops[1], {attr: { offset: '0%' }},{attr: { offset: '100%' }, duration: 2});
-        },
-        onEnterBack: () => {
-          gsap.to(trigger, {opacity: 1, duration: 0.2})
-          gsap.fromTo(stops[0], {attr: { offset: '0%' }}, {attr: { offset: '200%' }, duration: 2, delay: 1});
-          gsap.fromTo(stops[1], {attr: { offset: '0%' }},{attr: { offset: '100%' }, duration: 2});
-        },
-        onLeave: () => {
-          gsap.to(trigger, {opacity: 0, duration: 0.2})
-        },
-        onLeaveBack: () => {
-          gsap.to(trigger, {opacity: 0, duration: 0.2})
-          gsap.fromTo(stops[0], {attr: { offset: '0%' }}, {attr: { offset: '200%' }, duration: 2, delay: 1});
-          gsap.fromTo(stops[1], {attr: { offset: '0%' }},{attr: { offset: '100%' }, duration: 2});
-        },
+        onEnter: () => {gsap.to(trigger, {opacity: 1, duration: 0.2})},
+        onEnterBack: () => {gsap.to(trigger, {opacity: 1, duration: 0.2})},
+        onLeave: () => {gsap.to(trigger, {opacity: 0, duration: 0.2})},
+        onLeaveBack: () => {gsap.to(trigger, {opacity: 0, duration: 0.2})},
       }
     })
   }
