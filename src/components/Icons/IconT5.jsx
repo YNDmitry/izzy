@@ -6,17 +6,11 @@ export function IconT5() {
             {
                 !isTablet
                     ?
-                    <svg width="224" height="210" viewBox="0 0 224 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id={gradientId} className={'gradient'} x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#00FFD8"/>
-                                <stop offset="0%" stopColor="#4E4E4E"/>
-                            </linearGradient>
-                        </defs>
+                    <svg width="207" height="210" viewBox="0 0 207 210" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M205 2L123.802 2.80394C112.834 2.91253 104 11.8345 104 22.803V187.197C104 198.165 95.1659 207.087 84.198 207.196L3 208"
-                            stroke={`url(#${gradientId})`}/>
-                        <rect x="224" y="4" width="4" height="4" rx="2" transform="rotate(180 224 4)" fill="#4E4E4E"/>
+                            stroke="#4E4E4E"/>
+                        <rect x="207" y="4" width="4" height="4" rx="2" transform="rotate(180 207 4)" fill="#4E4E4E"/>
                         <rect x="4" y="210" width="4" height="4" rx="2" transform="rotate(180 4 210)" fill="#4E4E4E"/>
                     </svg>
                     : <svg width="139" height="78" viewBox="0 0 139 78" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -15,7 +15,7 @@ body {
 }
 .trigger_text {
 	color: white;
-	min-width: 23vh;
+	min-width: 24vh;
 	letter-spacing: -.03125rem;
 	font-size: 2vh;
 	font-weight: 600;
@@ -29,7 +29,10 @@ body {
 }
 
 .trigger_text.is-small {
-	min-width: 160px;
+	min-width: 20vh;
+}
+.trigger_text.is-small-2 {
+	min-width: 17vh;
 }
 
 .text-color-gray {
@@ -37,7 +40,7 @@ body {
 }
 
 .trigger_icon {
-	margin-top: 1.52222vw;
+	margin-top: 1.2vh;
 }
 
 .trigger_text-wrapper.is-v2 {

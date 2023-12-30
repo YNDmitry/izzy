@@ -463,7 +463,7 @@ export function Model(props) {
       mobile: [0, 8, 1.5]
     },
     't5': {
-      desktop: [0, -1.2, 3.3],
+      desktop: [0, -1.2, 3.8],
       tablet: [0, 7, -2],
       mobile: [0, 6, -2.5]
     },
@@ -483,7 +483,7 @@ export function Model(props) {
       mobile: [0, -2, 4.5]
     },
     't9': {
-      desktop: [15.5, -16, 13],
+      desktop: [15.1, -16, 13],
       tablet: [15.5, -13, 1],
       mobile: [15.5, -11.5, 1]
     },
@@ -522,7 +522,7 @@ export function Model(props) {
           <mesh name="Cube011" geometry={nodes.Cube011.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
           <mesh ref={led} name="Cylinder010" geometry={nodes.Cylinder010.geometry} material={materials.emission} position={[0.073, 0.131, -2.183]} rotation={[0, 0, -0.25]}>
             <Annotation anchor={getAnchorPosition('t1')} id='t1' icon={<IconT1/>} comboClass={'is-1'}>
-              <div className="trigger_text">Яркий индикатор <span className={'text-color-gray'}>заметен в любое время суток</span></div>
+              <div className="trigger_text">Яркий индикатор <span className={'text-color-gray'}>заметен<br/>в любое время суток</span></div>
             </Annotation>
             <Annotation anchor={getAnchorPosition('t2')} id='t2' comboClass={'is-v2'}>
               <div id="t2-1" className="trigger_text is-v2">Доступен</div>
@@ -534,19 +534,20 @@ export function Model(props) {
           </mesh>
           <mesh ref={led3} name="Cube013" geometry={nodes.Cube013.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]}>
             <Annotation anchor={getAnchorPosition('t3')} id='t3' icon={<IconT3/>} comboClass={'is-v3'}>
-              <div className="trigger_text order">Приборная панель <span className={'text-color-gray'}>с простым интерфейсом</span></div>
+              <div className="trigger_text order">Приборная панель <span className={'text-color-gray'}><br/>с простым интерфейсом</span>
+              </div>
             </Annotation>
             <Annotation anchor={getAnchorPosition('t4')} center id='t4' icon={<IconT4/>} comboClass={'is-2'}>
-              <div className="trigger_text is-small">Надежный тормоз</div>
+              <div className="trigger_text is-small-2">Надежный тормоз</div>
             </Annotation>
             <Annotation anchor={getAnchorPosition('t5')} center id='t5' icon={<IconT5/>} comboClass={'is-v4'}>
-              <div className="trigger_text">Фиксатор для смартфона <span className={'text-color-gray'}>с беспроводной зарядкой</span></div>
+              <div className="trigger_text">Фиксатор для смартфона <span className={'text-color-gray'}><br/>с беспроводной зарядкой</span></div>
             </Annotation>
             <Annotation anchor={getAnchorPosition('t6')} id='t6' icon={<IconT6/>} comboClass={'is-v3'}>
               <div className="trigger_text order">Мягкая кнопка старта</div>
             </Annotation>
             <Annotation anchor={getAnchorPosition('t9')} id='t9' icon={<IconT9/>} center>
-              <div className="trigger_text">Даже на заднем колесе</div>
+              <div className="trigger_text is-small">Даже на заднем колесе</div>
             </Annotation>
             <meshStandardMaterial roughness={0} metalness={0} color={'white'} emissive={'white'} emissiveIntensity={54} />
           </mesh>
