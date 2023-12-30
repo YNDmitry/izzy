@@ -183,18 +183,102 @@ export function Model(props) {
 
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
 
+  useLayoutEffect(() => {
+    if (!model.current || !cameraControlsRef.current) return
+
+    animations.current.tl1 = createTimeline(
+        { trigger: '#trigger1', endTrigger: '#trigger2-1' },
+        { start: { x: -2, y: 0, z: 0 }, end: { x: -3, y: 1, z: -1 } },
+        { start: { x: -9.75, y: 1, z: 15 }, end: { x: -4.74, y: 1, z: 5 } },
+        { start: { x: 0, y: 0, z: 0 }, end: { x: 0, y: 0, z: 0 } }
+    );
+
+    animations.current.tl2 = createTimeline(
+        { trigger: '#trigger3', endTrigger: '#trigger4' },
+        { start: { x: -3, y: 1, z: -1 }, end: { x: -6, y: 0, z: 0 } },
+        { start: { x: -4.74, y: 1, z: 5, }, end: { x: 0.25, y: 7, z: 0 } }
+    )
+
+    if (window.innerWidth > 1220) {
+      animations.current.tl3 = createTimeline(
+          { trigger: '#trigger4', endTrigger: '#trigger5' },
+          { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
+          { start: { x: 0.25, y: 7, z: 0 }, end: { x: 2, y: 9, z: 0 } }
+      );
+      animations.current.tl4 = createTimeline(
+          { trigger: '#trigger5', endTrigger: '#trigger6' },
+          { start: { x: -6, y: 0, z: 0 }, end: { x: -2, y: 4, z: 0 } },
+          { start: { x: 2, y: 9, z: 0 }, end: { x: -7, y: 5, z: -4 } },
+          { start: { x: 0, y: 0, z: 0 }, end: { x: -2, y: -1, z: -3 } }
+      );
+      animations.current.tl5 = createTimeline(
+          { trigger: '#trigger6', endTrigger: '#trigger7' },
+          { start: { x: -2, y: 4, z: 0 }, end: { x: -2, y: 4, z: 0 } },
+          { start: { x: -7, y: 5, z: -4 }, end: { x: -5, y: 5, z: 6 } },
+          { start: { x: -2, y: -1, z: -3 }, end: { x: 2, y: 0, z: 5 } }
+      );
+      animations.current.tl6 = createTimeline(
+          { trigger: '#trigger7', endTrigger: '#trigger8' },
+          { start: { x: -2, y: 4, z: 0 }, end: { x: 0, y: -4, z: 0 } },
+          { start: { x: -5, y: 5, z: 6 }, end: { x: 9, y: 3, z: -8 } },
+          { start: { x: 2, y: 0, z: 5 }, end: { x: -2, y: 0, z: 3 } }
+      )
+      animations.current.tl7 = createTimeline(
+          { trigger: '#trigger8', endTrigger: '#trigger9' },
+          { start: { x: 0, y: -4, z: 0 }, end: { x: 0, y: -3, z: 0 } },
+          { start: { x: 9, y: 3, z: -8 }, end: { x: 6, y: 3, z: 9 } },
+          { start: { x: -2, y: 0, z: 3 }, end: { x: -2, y: 1, z: 2 } },
+          true
+      );
+    } else {
+      animations.current.tl3 = createTimeline(
+          { trigger: '#trigger4', endTrigger: '#trigger5' },
+          { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
+          { start: { x: 0.25, y: 7, z: 0 }, end: { x: 3, y: 15, z: 0 } }
+      );
+      animations.current.tl4 = createTimeline(
+          { trigger: '#trigger5', endTrigger: '#trigger6' },
+          { start: { x: -6, y: 0, z: 0 }, end: { x: -2, y: 4, z: 0 } },
+          { start: { x: 3, y: 15, z: 0 }, end: { x: -7, y: 5, z: -4 } },
+          { start: { x: 0, y: 0, z: 0 }, end: { x: -2, y: -1, z: -3 } }
+      );
+      animations.current.tl5 = createTimeline(
+          { trigger: '#trigger6', endTrigger: '#trigger7' },
+          { start: { x: -2, y: 4, z: 0 }, end: { x: -2, y: 4, z: 0 } },
+          { start: { x: -7, y: 5, z: -4 }, end: { x: -5, y: 7, z: 6 } },
+          { start: { x: -2, y: -1, z: -3 }, end: { x: 3, y: 0, z: 5 } }
+      );
+      animations.current.tl6 = createTimeline(
+          { trigger: '#trigger7', endTrigger: '#trigger8' },
+          { start: { x: -2, y: 4, z: 0 }, end: { x: 4, y: -4, z: 0 } },
+          { start: { x: -5, y: 7, z: 6 }, end: { x: 12, y: 3, z: -8 } },
+          { start: { x: 3, y: 0, z: 5 }, end: { x: 0, y: 0, z: 2 } }
+      )
+      animations.current.tl7 = createTimeline(
+          { trigger: '#trigger8', endTrigger: '#trigger9' },
+          { start: { x: 4, y: -4, z: 0 }, end: { x: 0, y: -4, z: 0 } },
+          { start: { x: 12, y: 3, z: -8 }, end: { x: 5, y: 3, z: 8 } },
+          { start: { x: 0, y: 0, z: 2 }, end: { x: 0, y: 0, z: 2 } },
+          true
+      )
+    }
+
+    return () => {
+      Object.values(animations.current).forEach(tl => tl.kill());
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    }
+  }, [])
+
   useEffect(() => {
-    if (!model.current) return
+    if (!model.current || !cameraControlsRef.current) return
+    cameraControlsRef.current.target.set(-2, 0, 0);
+    cameraControlsRef.current.object.position.set(-9.75, 1, 15);
+    cameraControlsRef.current.update();
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
 
     window.addEventListener('resize', handleResize);
-
-    cameraControlsRef.current.target.set(-2, 0, 0);
-    cameraControlsRef.current.object.position.set(-9.75, 1, 15);
-    cameraControlsRef.current.update()
-    invalidate()
 
     gsap.to(led.current.material, {
       scrollTrigger: createLedScrollTrigger(
@@ -275,83 +359,6 @@ export function Model(props) {
       )
     });
 
-    animations.current.tl1 = createTimeline(
-        { trigger: '#trigger1', endTrigger: '#trigger2-1' },
-        { start: { x: -2, y: 0, z: 0 }, end: { x: -3, y: 1, z: -1 } },
-        { start: { x: -9.75, y: 1, z: 15 }, end: { x: -4.74, y: 1, z: 5 } },
-        { start: { x: 0, y: 0, z: 0 }, end: { x: 0, y: 0, z: 0 } }
-    );
-
-    animations.current.tl2 = createTimeline(
-        { trigger: '#trigger3', endTrigger: '#trigger4' },
-        { start: { x: -3, y: 1, z: -1 }, end: { x: -6, y: 0, z: 0 } },
-        { start: { x: -4.74, y: 1, z: 5, }, end: { x: 0.25, y: 7, z: 0 } }
-    )
-
-    if (window.innerWidth > 1220) {
-      animations.current.tl3 = createTimeline(
-          { trigger: '#trigger4', endTrigger: '#trigger5' },
-          { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
-          { start: { x: 0.25, y: 7, z: 0 }, end: { x: 2, y: 9, z: 0 } }
-      );
-      animations.current.tl4 = createTimeline(
-          { trigger: '#trigger5', endTrigger: '#trigger6' },
-          { start: { x: -6, y: 0, z: 0 }, end: { x: -2, y: 4, z: 0 } },
-          { start: { x: 2, y: 9, z: 0 }, end: { x: -7, y: 5, z: -4 } },
-          { start: { x: 0, y: 0, z: 0 }, end: { x: -2, y: -1, z: -3 } }
-      );
-      animations.current.tl5 = createTimeline(
-          { trigger: '#trigger6', endTrigger: '#trigger7' },
-          { start: { x: -2, y: 4, z: 0 }, end: { x: -2, y: 4, z: 0 } },
-          { start: { x: -7, y: 5, z: -4 }, end: { x: -5, y: 5, z: 6 } },
-          { start: { x: -2, y: -1, z: -3 }, end: { x: 2, y: 0, z: 5 } }
-      );
-      animations.current.tl6 = createTimeline(
-          { trigger: '#trigger7', endTrigger: '#trigger8' },
-          { start: { x: -2, y: 4, z: 0 }, end: { x: 0, y: -4, z: 0 } },
-          { start: { x: -5, y: 5, z: 6 }, end: { x: 9, y: 3, z: -8 } },
-          { start: { x: 2, y: 0, z: 5 }, end: { x: -2, y: 0, z: 3 } }
-      )
-      animations.current.tl7 = createTimeline(
-          { trigger: '#trigger8', endTrigger: '#trigger9' },
-          { start: { x: 0, y: -4, z: 0 }, end: { x: 0, y: -3, z: 0 } },
-          { start: { x: 9, y: 3, z: -8 }, end: { x: 6, y: 3, z: 9 } },
-          { start: { x: -2, y: 0, z: 3 }, end: { x: -2, y: 1, z: 2 } },
-          true
-      );
-    } else {
-      animations.current.tl3 = createTimeline(
-          { trigger: '#trigger4', endTrigger: '#trigger5' },
-          { start: { x: -6, y: 0, z: 0 }, end: { x: -6, y: 0, z: 0 } },
-          { start: { x: 0.25, y: 7, z: 0 }, end: { x: 3, y: 15, z: 0 } }
-      );
-      animations.current.tl4 = createTimeline(
-          { trigger: '#trigger5', endTrigger: '#trigger6' },
-          { start: { x: -6, y: 0, z: 0 }, end: { x: -2, y: 4, z: 0 } },
-          { start: { x: 3, y: 15, z: 0 }, end: { x: -7, y: 5, z: -4 } },
-          { start: { x: 0, y: 0, z: 0 }, end: { x: -2, y: -1, z: -3 } }
-      );
-      animations.current.tl5 = createTimeline(
-          { trigger: '#trigger6', endTrigger: '#trigger7' },
-          { start: { x: -2, y: 4, z: 0 }, end: { x: -2, y: 4, z: 0 } },
-          { start: { x: -7, y: 5, z: -4 }, end: { x: -5, y: 7, z: 6 } },
-          { start: { x: -2, y: -1, z: -3 }, end: { x: 3, y: 0, z: 5 } }
-      );
-      animations.current.tl6 = createTimeline(
-          { trigger: '#trigger7', endTrigger: '#trigger8' },
-          { start: { x: -2, y: 4, z: 0 }, end: { x: 4, y: -4, z: 0 } },
-          { start: { x: -5, y: 7, z: 6 }, end: { x: 12, y: 3, z: -8 } },
-          { start: { x: 3, y: 0, z: 5 }, end: { x: 0, y: 0, z: 2 } }
-      )
-      animations.current.tl7 = createTimeline(
-          { trigger: '#trigger8', endTrigger: '#trigger9' },
-          { start: { x: 4, y: -4, z: 0 }, end: { x: 0, y: -4, z: 0 } },
-          { start: { x: 12, y: 3, z: -8 }, end: { x: 5, y: 3, z: 8 } },
-          { start: { x: 0, y: 0, z: 2 }, end: { x: 0, y: 0, z: 2 } },
-          true
-      )
-    }
-
     textTriggerAnimation('#t2-1', '#trigger2-1', '#trigger2-2', null, true, false);
     textTriggerAnimation('#t2-2', '#trigger2-2', '#trigger2-3', '#t2-1', false, false);
     textTriggerAnimation('#t2-3', '#trigger2-3', '#trigger2-4', '#t2-2', false, false);
@@ -431,10 +438,8 @@ export function Model(props) {
 
     return () => {
       window.removeEventListener('resize', handleResize)
-      Object.values(animations.current).forEach(tl => tl.kill());
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     }
-  }, [invalidate])
+  }, [])
 
   const anchorPositions = {
     't1': {
@@ -503,9 +508,6 @@ export function Model(props) {
     <>
       <OrbitControls
           ref={cameraControlsRef}
-          target={[-2, 0, 0]}
-          enableZoom={false}
-          enableRotate={false}
           enableDamping={false}
           enabled={false}
           makeDefault
