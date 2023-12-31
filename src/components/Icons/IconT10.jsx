@@ -9,7 +9,7 @@ export function IconT10() {
                     <rect width="3.95348" height="4" rx="1.97674" transform="matrix(1 0 0 -1 156.047 4)"
                           fill="#ffffff"/>
                 </svg> :
-                <svg width="106" height="188" viewBox="0 0 106 188" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg style={{'width': '13vh'}} width="100%" height="100%" viewBox="0 0 106 188" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 0 4)" fill="#ffffff"/>
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 102 188)" fill="#ffffff"/>
                     <path d="M2 2V89C2 102.255 12.7452 113 26 113H80C93.2548 113 104 123.745 104 137V186"

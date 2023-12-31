@@ -13,7 +13,7 @@ export function IconT5() {
                         <rect x="207" y="4" width="4" height="4" rx="2" transform="rotate(180 207 4)" fill="#ffffff"/>
                         <rect x="4" y="210" width="4" height="4" rx="2" transform="rotate(180 4 210)" fill="#ffffff"/>
                     </svg>
-                    : <svg width="139" height="78" viewBox="0 0 139 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    : <svg style={{'width': '15vh'}} width="100%" height="100%" viewBox="0 0 139 78" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="4" height="4" rx="2" transform="matrix(-1 8.74228e-08 8.74228e-08 1 4 74)"
                               fill="#ffffff"/>
                         <rect width="4" height="4" rx="2" transform="matrix(-1 8.74228e-08 8.74228e-08 1 139 0)"

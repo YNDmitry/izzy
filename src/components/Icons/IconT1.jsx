@@ -11,7 +11,7 @@ export function IconT1() {
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 0 4)" fill="#ffffff"/>
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 414 156)" fill="#ffffff"/>
                 </svg>
-                : <svg style={{'height': '30vh', width: '30vw'}} width="100%" height="100%"
+                : <svg style={{'width': '15vh'}} width="100%" height="100%"
                        viewBox="0 0 129 221"
                        fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2V199C2 210.046 10.9543 219 22 219H127" stroke="#ffffff"/>

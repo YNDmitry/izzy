@@ -11,7 +11,7 @@ export function IconT6() {
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 0 4)" fill="#ffffff"/>
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 98 134)" fill="#ffffff"/>
                 </svg> :
-                <svg width="51" height="190" viewBox="0 0 51 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg style={{'width': '6vh'}} width="100%" height="100%" viewBox="0 0 51 190" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect y="186" width="4" height="4" rx="2" fill="#ffffff"/>
                     <rect x="47" width="4" height="4" rx="2" fill="#ffffff"/>
                     <path d="M2 188V107.5C2 98.6634 9.16344 91.5 18 91.5H33C41.8366 91.5 49 84.3366 49 75.5V2"

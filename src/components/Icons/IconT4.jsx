@@ -8,7 +8,7 @@ export function IconT4() {
                     <rect x="4" y="4" width="4" height="4" rx="2" transform="rotate(180 4 4)" fill="#ffffff"/>
                     <rect x="106" y="104" width="4" height="4" rx="2" transform="rotate(180 106 104)" fill="#ffffff"/>
                 </svg>
-                : <svg width="50" height="190" viewBox="0 0 50 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                : <svg style={{'width': '4vh'}} width="100%" height="100%" viewBox="0 0 50 190" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="50" y="4" width="3.92157" height="4" rx="1.96078" transform="rotate(180 50 4)"
                           fill="#ffffff"/>
                     <rect x="3.9209" y="190" width="3.92157" height="4" rx="1.96078" transform="rotate(180 3.9209 190)"

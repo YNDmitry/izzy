@@ -10,7 +10,7 @@ export function IconT7() {
                     <rect x="324" y="4" width="4" height="4" rx="2" transform="rotate(180 324 4)" fill="#ffffff"/>
                     <rect x="4.5" y="169" width="4" height="4" rx="2" transform="rotate(180 4.5 169)" fill="#ffffff"/>
                 </svg> :
-                <svg width="139" height="78" viewBox="0 0 139 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg style={{'width': '16vh'}} width="100%" height="100%" viewBox="0 0 139 78" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 135 4)" fill="#ffffff"/>
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 0 78)" fill="#ffffff"/>
                     <path d="M137 2H26C12.7452 2 2 12.7452 2 26V77" stroke="#ffffff"/>
