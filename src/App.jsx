@@ -4,23 +4,13 @@ import { Model } from './components/model'
 import './App.css'
 import { Center, Stats, useProgress, Backdrop } from '@react-three/drei'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
+import {Triggers} from "./components/Triggers.jsx";
+import {Loader} from "./components/Loader.jsx";
 function App() {
     const container = useRef()
   return (
     <>
-      <div id="trigger1"></div>
-      <div id="trigger2-1"></div>
-      <div id="trigger2-2"></div>
-      <div id="trigger2-3"></div>
-      <div id="trigger2-4"></div>
-      <div id="trigger2-5"></div>
-      <div id="trigger3"></div>
-      <div id="trigger4"></div>
-      <div id="trigger5"></div>
-      <div id="trigger6"></div>
-      <div id="trigger7"></div>
-      <div id="trigger8"></div>
-      <div id="trigger9"></div>
+      <Triggers/>
       <div className='canvas-container' ref={container}>
         <Canvas camera={{ fov: 45 }} frameloop="demand" shadows resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }} style={{'pointerEvents': 'none'}}>
             {import.meta.env.DEV ? <Stats /> : ''}
@@ -50,14 +40,6 @@ function App() {
       </div >
     </>
   )
-}
-
-function Loader() {
-  const { progress } = useProgress()
-  sessionStorage.removeItem('modelIsLoaded')
-  if (progress === 100) {
-    sessionStorage.setItem('modelIsLoaded', 'true')
-  }
 }
 
 export default App

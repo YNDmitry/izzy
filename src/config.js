@@ -1,0 +1,60 @@
+export const config = {
+    colors: {
+        blue: '#0047FF',
+        green: '#00FF19',
+        red: '#FF0004',
+        orange: 'orange'
+    },
+    anchorPositions: {
+        't1': {
+            desktop: [-1.6, 0.10, -5.2],
+            tablet: [0, 0.6, -1.3],
+            mobile: [0.1, 0.9, -2.7]
+        },
+        't2': {
+            desktop: [0, 1, -17],
+            tablet: [0, 0.5, -3],
+            mobile: [0, 0.5, -3]
+        },
+        't3': {
+            desktop: [0, -1, -0.8],
+            tablet: [0, -1.5, 1],
+            mobile: [0, -1.5, 1]
+        },
+        't4': {
+            desktop: [0, 2.8, 4.3],
+            tablet: [0, 8, 2],
+            mobile: [0, 8, 1.5]
+        },
+        't5': {
+            desktop: [0, -1.2, 3.8],
+            tablet: [0, 7, -2],
+            mobile: [0, 6, -2.5]
+        },
+        't6': {
+            desktop: [0, 0.4, -3.6],
+            tablet: [0, 0, -1],
+            mobile: [0, 0, 0.2]
+        },
+        't7': {
+            desktop: [0, -1.6, -5],
+            tablet: [0, -1.6, -2],
+            mobile: [0, -2, -2]
+        },
+        't8': {
+            desktop: [0, -0.5, 7.6],
+            tablet: [0, -1.7, 3.8],
+            mobile: [0, -2, 4.5]
+        },
+        't9': {
+            desktop: [15.1, -16, 13],
+            tablet: [15.5, -13, 1],
+            mobile: [15.5, -11.5, 1]
+        },
+        't10': {
+            desktop: [15, -18, -17],
+            tablet: [10, -32, -17],
+            mobile: [5, -34, -17]
+        },
+    }
+}
