@@ -1,4 +1,5 @@
 export const config = {
+    modelPath: 'https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/6589dabe5b7d61bf88af9927_scooter-transformed.glb.txt',
     colors: {
         blue: '#0047FF',
         green: '#00FF19',

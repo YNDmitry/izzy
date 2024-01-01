@@ -1,8 +1,7 @@
-import {forwardRef, useCallback, useEffect, useLayoutEffect, useRef, useState} from "react";
-import {Html, OrbitControls, useGLTF} from "@react-three/drei";
+import {useCallback, useEffect, useLayoutEffect, useRef} from "react";
+import {OrbitControls, useGLTF} from "@react-three/drei";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Color, MeshStandardMaterial } from 'three';
 import {useThree} from '@react-three/fiber';
 import {IconT1} from "./Icons/IconT1.jsx";
 import {IconT3} from "./Icons/IconT3.jsx";
@@ -13,7 +12,6 @@ import {IconT7} from "./Icons/IconT7.jsx";
 import {IconT8} from "./Icons/IconT8.jsx";
 import {IconT9} from "./Icons/IconT9.jsx";
 import {IconT10} from "./Icons/IconT10.jsx";
-import {useGSAP} from "@gsap/react";
 import {useInitializeMaterial} from "../composables/useInitializeMaterial.jsx";
 import {config} from "../config.js";
 import {useAnimateMaterial} from "../composables/useAnimateMaterial.jsx";
@@ -24,7 +22,7 @@ import {Annotation} from "./Annotation.jsx";
 gsap.registerPlugin(ScrollTrigger)
 
 export function Model(props) {
-  const { nodes, materials } = useGLTF("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/6589dabe5b7d61bf88af9927_scooter-transformed.glb.txt");
+  const { nodes, materials } = useGLTF(config.modelPath);
   const model = useRef()
   const cameraControlsRef = useRef()
   const animations = useRef({})
@@ -50,7 +48,7 @@ export function Model(props) {
         scrub: true,
         start: 'top top',
         end: '+=60% bottom',
-        markers: import.meta.env.DEV ? true : false,
+        markers: !!import.meta.env.DEV,
         onUpdate: () => cameraControlsRef.current.update()
       }
     });
@@ -370,4 +368,4 @@ export function Model(props) {
   )
 }
 
-useGLTF.preload("https://uploads-ssl.webflow.com/65705d0a7b517c17741ec3f1/6589dabe5b7d61bf88af9927_scooter-transformed.glb.txt");
+useGLTF.preload(config.modelPath)

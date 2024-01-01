@@ -1,8 +1,7 @@
 import {Canvas} from '@react-three/fiber'
 import {Suspense, useRef} from 'react'
 import { Model } from './components/model'
-import './App.css'
-import { Center, Stats, useProgress, Backdrop } from '@react-three/drei'
+import { Center, Stats, Backdrop } from '@react-three/drei'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import {Triggers} from "./components/Triggers.jsx";
 import {Loader} from "./components/Loader.jsx";
