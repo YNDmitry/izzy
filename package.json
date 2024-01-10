@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "vite --port 3000",
     "build": "vite build",
-    "publish": "/Users/macbookprom1/Desktop/webflow-publish/publish ",
+    "publish": "/Users/macbookprom1/WebstormProjects/webflow-publish/build/webflow-publish/publish",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
