@@ -15,15 +15,27 @@ body {
 }
 .trigger_text {
 	color: white;
-	min-width: 24vh;
+	min-width: 22vh;
 	letter-spacing: -.03125rem;
 	font-size: 2vh;
 	font-weight: 600;
 	line-height: 118%;
 }
 
+html[lang="ru"] #t8 .trigger_text {
+	min-width: 24vh;
+}
+
+html[lang="ru"] #t10 .trigger_text {
+	min-width: 30vh;
+}
+
 html[lang="en"] #t4 .trigger_text {
 	min-width: 13vh;
+}
+
+html[lang="az"] #t4 .trigger_text {
+	min-width: 14vh;
 }
 
 html[lang="en"] #t5 .trigger_text {
@@ -35,7 +47,11 @@ html[lang="en"] #t9 .trigger_text {
 }
 
 html[lang="en"] #t7 .trigger_text {
-	min-width: 27vh;
+	min-width: 28vh;
+}
+
+html[lang="az"] #t7 .trigger_text {
+	min-width: 25vh;
 }
 
 .trigger_text.order {
