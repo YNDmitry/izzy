@@ -49,7 +49,6 @@ export function Model(props) {
         scrub: true,
         start: 'top top',
         end: '+=60% bottom',
-        markers: !!import.meta.env.DEV,
         onUpdate: () => cameraControlsRef.current.update()
       }
     });
@@ -75,10 +74,6 @@ export function Model(props) {
         scrub: true,
         start: '+=60%',
         end: '+=40%',
-        markers: import.meta.env.DEV ? {
-            startColor: 'white',
-            endColor: 'white'
-        } : false,
         onEnter: () => {gsap.to(trigger, {opacity: 1, duration: 0.2})},
         onEnterBack: () => {gsap.to(trigger, {opacity: 1, duration: 0.2})},
         onLeave: () => {gsap.to(trigger, {opacity: 0, duration: 0.2})},

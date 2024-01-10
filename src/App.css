@@ -21,6 +21,23 @@ body {
 	font-weight: 600;
 	line-height: 118%;
 }
+
+html[lang="en"] #t4 .trigger_text {
+	min-width: 13vh;
+}
+
+html[lang="en"] #t5 .trigger_text {
+	min-width: 18vh;
+}
+
+html[lang="en"] #t9 .trigger_text {
+	min-width: 19vh;
+}
+
+html[lang="en"] #t7 .trigger_text {
+	min-width: 27vh;
+}
+
 .trigger_text.order {
 	order: 2;
 }
