@@ -5,11 +5,13 @@
   "type": "module",
   "config": {
     "ghUserName": "YNDmitry",
-    "repositoryName": "izzy"
+    "repositoryName": "izzy",
+    "browser": "arc"
   },
   "scripts": {
     "dev": "vite --port 3000",
     "build": "vite build",
+    "publish": "/Users/macbookprom1/Desktop/webflow-publish/publish ",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -19,8 +21,11 @@
     "@react-three/fiber": "^8.15.12",
     "@react-three/postprocessing": "^2.15.11",
     "gsap": "^3.12.4",
+    "i18next": "^23.7.16",
+    "i18next-browser-languagedetector": "^7.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-i18next": "^14.0.0",
     "three": "^0.159.0"
   },
   "devDependencies": {

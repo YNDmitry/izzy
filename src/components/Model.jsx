@@ -18,6 +18,7 @@ import {useAnimateMaterial} from "../composables/useAnimateMaterial.jsx";
 import {useGetAnchorPosition} from "../composables/useGetAnchorPosition.jsx";
 import {useLedAnimation} from "../composables/useLedAnimation.jsx";
 import {Annotation} from "./Annotation.jsx";
+import { useTranslation } from 'react-i18next';
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -296,6 +297,8 @@ export function Model(props) {
     })
   }, [])
 
+  const { t } = useTranslation()
+
   return (
     <>
       <OrbitControls
@@ -308,51 +311,50 @@ export function Model(props) {
         <group name="Scene">
           <mesh name="Cube019" geometry={nodes.Cube019.geometry} material={materials.main} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} castShadow={true} receiveShadow={true}>
             <Annotation anchor={useGetAnchorPosition('t10')} id='t10' icon={<IconT10/>} center comboClass={'is-v7'}>
-              <div className="trigger_text is-big order">Устойчивая платформа <span className={'text-color-gray'}>с нескользящей поверхностью</span></div>
+              <div className="trigger_text order">{t('t10.text')} {t('t10.subText') ? <span className={'text-color-gray'}><br/>{t('t10.subText')}</span> : ''}</div>
             </Annotation>
           </mesh>
           <mesh name="Cube011" geometry={nodes.Cube011.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
           <mesh ref={led} name="Cylinder010" geometry={nodes.Cylinder010.geometry} material={materials.emission} position={[0.073, 0.131, -2.183]} rotation={[0, 0, -0.25]}>
             <Annotation anchor={useGetAnchorPosition('t1')} id='t1' icon={<IconT1/>} comboClass={'is-1'}>
-              <div className="trigger_text">Яркий индикатор <span className={'text-color-gray'}>заметен<br/>в любое время суток</span></div>
+              <div className="trigger_text">{t('t1.text')} {t('t1.subText') ? <span className={'text-color-gray'}><br/>{t('t1.subText')}</span> : ''}</div>
             </Annotation>
             <Annotation anchor={useGetAnchorPosition('t2')} id='t2' comboClass={'is-v2'}>
-              <div id="t2-1" className="trigger_text is-v2">Доступен</div>
-              <div id="t2-2" className="trigger_text is-v2">Активен</div>
-              <div id="t2-3" className="trigger_text is-v2">Поворот</div>
-              <div id="t2-4" className="trigger_text is-v2">Торможение</div>
+              <div id="t2-1" className="trigger_text is-v2">{t('t2-1.text')}</div>
+              <div id="t2-2" className="trigger_text is-v2">{t('t2-2.text')}</div>
+              <div id="t2-3" className="trigger_text is-v2">{t('t2-3.text')}</div>
+              <div id="t2-4" className="trigger_text is-v2">{t('t2-4.text')}</div>
             </Annotation>
             <meshStandardMaterial roughness={0} metalness={0} color={currentLed.current} emissive={currentLed.current} emissiveIntensity={54} />
           </mesh>
           <mesh ref={led3} name="Cube013" geometry={nodes.Cube013.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]}>
             <Annotation anchor={useGetAnchorPosition('t3')} id='t3' icon={<IconT3/>} comboClass={'is-v3'}>
-              <div className="trigger_text order">Приборная панель <span className={'text-color-gray'}><br/>с простым интерфейсом</span>
-              </div>
+              <div className="trigger_text order">{t('t3.text')} {t('t3.subText') ? <span className={'text-color-gray'}><br/>{t('t3.subText')}</span> : ''}</div>
             </Annotation>
             <Annotation anchor={useGetAnchorPosition('t4')} center id='t4' icon={<IconT4/>} comboClass={'is-2'}>
-              <div className="trigger_text is-small-2">Надежный тормоз</div>
+              <div className="trigger_text is-small-2">{t('t4.text')}</div>
             </Annotation>
             <Annotation anchor={useGetAnchorPosition('t5')} center id='t5' icon={<IconT5/>} comboClass={'is-v4'}>
-              <div className="trigger_text">Фиксатор для смартфона <span className={'text-color-gray'}><br/>с беспроводной зарядкой</span></div>
+              <div className="trigger_text">{t('t5.text')} {t('t5.subText') ? <span className={'text-color-gray'}><br/>{t('t5.subText')}</span> : ''}</div>
             </Annotation>
             <Annotation anchor={useGetAnchorPosition('t6')} id='t6' icon={<IconT6/>} comboClass={'is-v3'}>
-              <div className="trigger_text order">Мягкая кнопка старта</div>
+              <div className="trigger_text order">{t('t6.text')}</div>
             </Annotation>
             <Annotation anchor={useGetAnchorPosition('t9')} id='t9' icon={<IconT9/>} center>
-              <div className="trigger_text is-small">Даже на заднем колесе</div>
+              <div className="trigger_text is-small">{t('t9.text')}</div>
             </Annotation>
             <meshStandardMaterial roughness={0} metalness={0} color={'white'} emissive={'white'} emissiveIntensity={54} />
           </mesh>
           <mesh ref={led2} name="Cube015" geometry={nodes.Cube015.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]}>
             <Annotation anchor={useGetAnchorPosition('t8')} id='t8' icon={<IconT8/>} comboClass={'is-v6'} center>
-              <div className="trigger_text order">Заметные поворотные огни</div>
+              <div className="trigger_text order">{t('t8.text')}</div>
             </Annotation>
             <meshStandardMaterial roughness={0} metalness={0} color={'white'} emissive={'white'} emissiveIntensity={54} />
           </mesh>
           <mesh name="Cube016" geometry={nodes.Cube016.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]} />
           <mesh name="Cube017" geometry={nodes.Cube017.geometry} material={materials.emission} position={[0.199, 1.064, -2.184]} rotation={[0, 0, -0.245]} scale={[0.104, 0.104, 0.078]}>
             <Annotation anchor={useGetAnchorPosition('t7')} id='t7' icon={<IconT7/>} comboClass={'is-v5'} center>
-              <div className="trigger_text is-big">Мощная фара <span className={'text-color-gray'}>для безопасности пользователя и окружающих</span></div>
+              <div className="trigger_text is-big">{t('t7.text')} {t('t7.subText') ? <span className={'text-color-gray'}><br/>{t('t7.subText')}</span> : ''}</div>
             </Annotation>
           </mesh>
           <mesh name="Cube001" geometry={nodes.Cube001.geometry} material={materials.emission}
