@@ -10,11 +10,12 @@ export function IconT3() {
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 0 4)" fill="#ffffff"/>
                     <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 201 76)" fill="#ffffff"/>
                 </svg>
-                : <svg style={{'width': '6vh'}} width="100%" height="100%" viewBox="0 0 51 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 2V82.5C2 91.3366 9.16344 98.5 18 98.5H33C41.8366 98.5 49 105.663 49 114.5V188"
-                          stroke="#ffffff"/>
-                    <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 0 4)" fill="#ffffff"/>
-                    <rect width="4" height="4" rx="2" transform="matrix(1 0 0 -1 47 190)" fill="#ffffff"/>
+                : <svg style={{'width': '7vh', 'marginRight': '3.4rem'}} width="100%" height="100%" viewBox="0 0 50 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect y="186" width="3.9215" height="4" rx="1.96075" fill="white"/>
+                    <rect x="46.0781" width="3.9215" height="4" rx="1.96075" fill="white"/>
+                    <path
+                        d="M1.96094 188L1.96095 107.5C1.96095 98.6634 9.1244 91.5 17.961 91.5L32.0386 91.5C40.8752 91.5 48.0386 84.3366 48.0386 75.5L48.0387 2.00001"
+                        stroke="white"/>
                 </svg>
             }
         </>

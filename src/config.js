@@ -19,8 +19,8 @@ export const config = {
         },
         't3': {
             desktop: [0, -1, -0.8],
-            tablet: [0, -1.5, 0],
-            mobile: [0, -1.5, 0]
+            tablet: [0, -1, 0],
+            mobile: [0, -1, 0]
         },
         't4': {
             desktop: [0, 2.8, 4.3],

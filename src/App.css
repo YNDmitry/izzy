@@ -95,6 +95,10 @@ html[lang="az"] #t7 .trigger_text {
 		align-items: center;
 	}
 
+	#t4 {
+		align-items: flex-start;
+	}
+
 	.trigger_text-wrapper.is-v3 {
 		align-items: center;
 	}
@@ -109,12 +113,22 @@ html[lang="az"] #t7 .trigger_text {
 
 	.trigger_text-wrapper.is-v5 .trigger_text {
 		min-width: 14rem;
-		margin-top: 1rem;
+
+		margin-top: 0.3rem;
 		order: 1;
 	}
 
 	.trigger_text-wrapper.is-v7 {
 		align-items: flex-start;
+	}
+
+	html[lang="az"] #t7 .trigger_text {
+		min-width: 20vh;
+	}
+
+	html[lang="az"] #t9 .trigger_text,
+	html[lang="en"] #t7 .trigger_text{
+		min-width: 21vh;
 	}
 }
 
