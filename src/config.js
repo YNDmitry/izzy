@@ -35,7 +35,7 @@ export const config = {
         't6': {
             desktop: [0, 0.4, -3.6],
             tablet: [0, 0, -1],
-            mobile: [0, 0, 0.2]
+            mobile: [0, 0, -1]
         },
         't7': {
             desktop: [0, -1.6, -5],
@@ -44,12 +44,12 @@ export const config = {
         },
         't8': {
             desktop: [0, -0.5, 7.6],
-            tablet: [0, -1.7, 3.8],
-            mobile: [0, -2, 4.7]
+            tablet: [0, -1.8, 5.2],
+            mobile: [0, -1.8, 5.2]
         },
         't9': {
             desktop: [15.1, -16, 13],
-            tablet: [15.5, -13, 1],
+            tablet: [15.5, -11.5, 0.7],
             mobile: [15.4, -11.5, 0.7]
         },
         't10': {

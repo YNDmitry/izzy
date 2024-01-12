@@ -130,6 +130,27 @@ html[lang="az"] #t7 .trigger_text {
 	html[lang="en"] #t7 .trigger_text{
 		min-width: 21vh;
 	}
+
+	#t4 .trigger_icon {
+		margin-left: 2rem;
+	}
+
+	#t8 .trigger_text {
+		margin-left: 1rem;
+	}
+
+	#t8 .trigger_text {
+		min-width: 14vh;
+	}
+
+	#t6 .trigger_text {
+		min-width: 15vh;
+		margin-left: -1rem;
+	}
+
+	#t8 {
+		align-items: center;
+	}
 }
 
 @media screen and (max-width: 769px) {
