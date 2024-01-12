@@ -49,7 +49,6 @@ export function Model(props) {
         scrub: true,
         start: 'top',
         end: '+=150%',
-        markers: true,
         onUpdate: () => cameraControlsRef.current.update()
       }
     });
