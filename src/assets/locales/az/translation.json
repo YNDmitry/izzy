@@ -1,7 +1,7 @@
 {
   "t1": {
-    "text": "Rul ustunidagi yorqin indikator kunning istalgan vaqtida ko‘rinadi",
-    "subText": ""
+    "text": "Rul ustunidagi yorqin indikator",
+    "subText": "kunning istalgan vaqtida ko'rinadi"
   },
   "t2-1": {
     "text": "Foydalanishga tayyor"
@@ -16,22 +16,22 @@
     "text": "To‘xtash"
   },
   "t3": {
-    "text": "Oddiy interfeysga ega asboblar paneli",
-    "subText": ""
+    "text": "Oddiy interfeysga",
+    "subText": "ega asboblar paneli"
   },
   "t4": {
     "text": "Ishonchli tormoz"
   },
   "t5": {
-    "text": "Simsiz quvvatlagichga ega smartfon ushlagichi",
-    "subText": ""
+    "text": "Simsiz quvvatlagichga ega",
+    "subText": "smartfon ushlagichi"
   },
   "t6": {
     "text": "Yumshoq boshlash tugmasi"
   },
   "t7": {
-    "text": "Foydalanuvchi va atrofdagilar xavfsizligi uchun kuchli fara",
-    "subText": ""
+    "text": "Foydalanuvchi va atrofdagilar xavfsizligi uchun",
+    "subText": "kuchli yoritgich"
   },
   "t8": {
     "text": "Ko‘rinarli burilish chiroqlari"
@@ -40,7 +40,7 @@
     "text": "Hatto orqa g‘ildirakda ham"
   },
   "t10": {
-    "text": "Sirpanmaydigan yuzaga\nega mustahkam platforma",
-    "subText": ""
+    "text": "Sirpanmaydigan yuzaga ega",
+    "subText": "mustahkam platforma"
   }
 }
